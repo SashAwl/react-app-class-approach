@@ -1,5 +1,9 @@
 import './App.css';
-import { ItemData } from './components/ItemData';
+import { ErrorMessage } from './components/ErrorMessage';
+import { ItemDataList } from './components/ItemDataList';
+import { Search } from './components/SearchForm';
+import { Spinner } from './components/Spinner';
+import { ThrowErrorButton } from './components/ThrowErrorButton';
 import type { Character } from './types';
 import {
   getRequestURL,
@@ -83,7 +87,7 @@ class App extends React.Component<object, State> {
   setTermToLS = () => {};
 
   render() {
-    const { characters, loading, error } = this.state;
+    const { characters, loading, error, inputValue } = this.state;
 
     if (this.state.throwError) {
       throw new Error('Тестовая ошибка');
@@ -91,36 +95,15 @@ class App extends React.Component<object, State> {
 
     return (
       <>
-        <section>
-          <input
-            type="search"
-            placeholder="Input search term ..."
-            onChange={this.handleChangeInput}
-            value={this.state.inputValue}
-          />
-          <button onClick={this.handleClickSearch} className="search__submit">
-            Search
-          </button>
-        </section>
-
-        {loading && (
-          <div className="flex flex-col justify-center items-center min-h-[200px] space-y-4">
-            <div className="w-16 h-16 border-8 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-blue-600 font-semibold text-lg">Loading...</p>
-          </div>
-        )}
-        {error && <p className="error-message">{error}</p>}
-        {!loading && !error && (
-          <section>
-            <h2>Your results</h2>
-            <div className="flex flex-col items-center">
-              {characters.map((item: Character) => (
-                <ItemData item={item} key={item.id} />
-              ))}
-            </div>
-          </section>
-        )}
-        <button onClick={this.handleErrorClick}>Throw error</button>
+        <Search
+          inputValue={inputValue}
+          onChange={this.handleChangeInput}
+          onSearch={this.handleClickSearch}
+        />
+        {loading && <Spinner />}
+        {error && <ErrorMessage error={error} />}
+        {!loading && !error && <ItemDataList characters={characters} />}
+        <ThrowErrorButton handleThrowError={this.handleErrorClick} />
       </>
     );
   }
