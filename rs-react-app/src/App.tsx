@@ -1,15 +1,8 @@
 import './App.css';
+import { ItemData } from './components/ItemData';
+import type { Character } from './types';
 import { getRequestURL } from './utilize';
 import React from 'react';
-
-interface Character {
-  id: number;
-  name: string;
-  gender: string;
-  status: string;
-  species: string;
-  image: string;
-}
 
 interface State {
   characters: Character[];
@@ -66,10 +59,9 @@ class App extends React.Component<{}, State> {
     const { characters, loading, error } = this.state;
     return (
       <>
-        <section className="search">
+        <section>
           <input
             type="search"
-            className="search__input"
             placeholder="Input search term ..."
             onChange={this.handleChangeInput}
           />
@@ -82,22 +74,11 @@ class App extends React.Component<{}, State> {
         {error && <p className="error-message">{error}</p>}
 
         {!loading && !error && (
-          <section className="w-sm">
+          <section>
             <h2>Your results</h2>
             <div className="flex flex-col items-center">
               {characters.map((item: Character) => (
-                <div
-                  className="grid grid-cols-2 gap-4"
-                  style={{ gap: '40px' }}
-                  key={item.id}
-                >
-                  <h3 className="text-right">{item.name}</h3>
-                  <div className="text-left">
-                    <p className="descrip-gender">Gender: {item.gender}</p>
-                    <p className="descrip-status">Status: {item.status}</p>
-                    <p className="descrip-gender">Species: {item.species}</p>
-                  </div>
-                </div>
+                <ItemData item={item} />
               ))}
             </div>
           </section>
