@@ -10,11 +10,7 @@ export class ItemData extends React.Component<ItemProps> {
     const { item } = this.props;
 
     return (
-      <div
-        className="grid grid-cols-2 gap-4"
-        style={{ gap: '40px' }}
-        key={item.id}
-      >
+      <div className="grid grid-cols-2 gap-4" style={{ gap: '40px' }}>
         <h3 className="text-right">{item.name}</h3>
         <div className="text-left">
           <p>Gender: {item.gender}</p>
