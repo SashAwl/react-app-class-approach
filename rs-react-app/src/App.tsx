@@ -15,15 +15,17 @@ interface State {
   error: string | null;
   query: string;
   inputValue: string;
+  throwError: boolean;
 }
 
-class App extends React.Component<null, State> {
+class App extends React.Component<object, State> {
   state = {
     characters: [],
     loading: true,
     error: null,
     query: '',
     inputValue: '',
+    throwError: false,
   };
 
   fetchData = async () => {
@@ -74,10 +76,19 @@ class App extends React.Component<null, State> {
     this.setState({ inputValue: inputValue });
   };
 
+  handleErrorClick = () => {
+    this.setState({ throwError: true });
+  };
+
   setTermToLS = () => {};
 
   render() {
     const { characters, loading, error } = this.state;
+
+    if (this.state.throwError) {
+      throw new Error('Тестовая ошибка');
+    }
+
     return (
       <>
         <section>
@@ -94,7 +105,6 @@ class App extends React.Component<null, State> {
 
         {loading && <p>Loading...</p>}
         {error && <p className="error-message">{error}</p>}
-
         {!loading && !error && (
           <section>
             <h2>Your results</h2>
@@ -105,7 +115,7 @@ class App extends React.Component<null, State> {
             </div>
           </section>
         )}
-        <button className="error-button">Error button</button>
+        <button onClick={this.handleErrorClick}>Throw error</button>
       </>
     );
   }
