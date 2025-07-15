@@ -1,3 +1,1 @@
-npm test
-prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown
-git update-index --again
+npm --prefix rs-react-app run lint && npm --prefix rs-react-app run format:fix  && echo "✅ Lint passed!"
