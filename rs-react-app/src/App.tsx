@@ -6,11 +6,11 @@ import { Spinner } from './components/Spinner';
 import { ThrowErrorButton } from './components/ThrowErrorButton';
 import type { Character } from './types';
 import {
-  getRequestURL,
   initialLocalStorage,
   setTermToLocalStorage,
   getTermFromLocalStorage,
-} from './utilize';
+} from './utilize/utilizeLocalStorage';
+import { fetchCharacters } from './utilize/utilize';
 import React from 'react';
 
 interface State {
@@ -33,29 +33,20 @@ class App extends React.Component<object, State> {
   };
 
   fetchData = async () => {
-    try {
-      const response = await fetch(getRequestURL(this.state.query));
-      const dataJSON = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('No characters found for your query');
-        } else {
-          throw new Error(`Server error: ${response.status}`);
-        }
+    this.setState({ loading: true });
+    fetchCharacters(
+      this.state.query,
+      (characters) => {
+        this.setState({ characters, loading: false, error: null });
+      },
+      (message) => {
+        console.log(message);
+        this.setState({
+          error: 'No characters found for your query',
+          loading: false,
+        });
       }
-
-      this.setState({ characters: dataJSON.results, loading: false });
-      this.setState(() => ({
-        error: null,
-      }));
-    } catch (error) {
-      console.log(error);
-      this.setState(() => ({
-        error: 'No characters found for your query',
-        loading: false,
-      }));
-    }
+    );
   };
 
   componentDidMount(): void {
@@ -84,13 +75,11 @@ class App extends React.Component<object, State> {
     this.setState({ throwError: true });
   };
 
-  setTermToLS = () => {};
-
   render() {
     const { characters, loading, error, inputValue } = this.state;
 
     if (this.state.throwError) {
-      throw new Error('Тестовая ошибка');
+      throw new Error('Testing error');
     }
 
     return (
