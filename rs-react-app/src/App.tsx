@@ -47,20 +47,6 @@ class App extends React.Component<object, State> {
         });
       }
     );
-    this.setState({ loading: true });
-    fetchCharacters(
-      this.state.query,
-      (characters) => {
-        this.setState({ characters, loading: false, error: null });
-      },
-      (message) => {
-        console.log(message);
-        this.setState({
-          error: 'No characters found for your query',
-          loading: false,
-        });
-      }
-    );
   };
 
   componentDidMount(): void {
