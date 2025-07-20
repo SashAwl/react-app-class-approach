@@ -4,11 +4,11 @@ import { render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 
-describe('display search form', () => {
+describe('Renders search input and search button', () => {
   const mockOnChange = vi.fn();
   const mockOnSearch = vi.fn();
 
-  test('display search input', async () => {
+  test('Displays search input and updates input value when user types', async () => {
     render(
       <Search
         inputValue="test"
@@ -24,7 +24,7 @@ describe('display search form', () => {
     expect(mockOnChange).toHaveBeenCalled();
   });
 
-  test('display search button', async () => {
+  test('Displays search button and triggers search callback', async () => {
     render(
       <Search
         inputValue="test"

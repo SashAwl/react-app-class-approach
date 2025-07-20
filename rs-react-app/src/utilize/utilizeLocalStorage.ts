@@ -1,6 +1,6 @@
 export function initialLocalStorage(): void {
-  if (!localStorage.getItem('quueryTerm')) {
-    localStorage.setItem('quueryTerm', '');
+  if (!localStorage.getItem('queryTerm')) {
+    localStorage.setItem('queryTerm', '');
   }
 }
 
