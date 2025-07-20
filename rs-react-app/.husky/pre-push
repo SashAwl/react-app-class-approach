@@ -1,4 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx vitest run
+npm --prefix rs-react-app run test && echo "✅ Tests passed!"
