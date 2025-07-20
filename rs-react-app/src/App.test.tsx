@@ -6,10 +6,6 @@ import App from './App';
 
 describe('Tests App component', () => {
   describe('Implements localStorage operations', () => {
-    vi.mock('@/components/Spinner', () => ({
-      default: () => <div data-testid="mock-spinner" />,
-    }));
-
     vi.mock('@/components/ErrorMessage', () => ({
       default: () => <div data-testid="mock-error-message" />,
     }));
