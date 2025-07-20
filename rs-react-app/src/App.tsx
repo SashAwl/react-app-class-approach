@@ -1,9 +1,9 @@
 import './App.css';
-import { ErrorMessage } from './components/ErrorMessage';
-import { ItemDataList } from './components/ItemDataList';
-import { Search } from './components/SearchForm';
-import { Spinner } from './components/Spinner';
-import { ThrowErrorButton } from './components/ThrowErrorButton';
+import { ErrorMessage } from './components/errorMessage/ErrorMessage';
+import { ItemDataList } from './components/itemDataList/ItemDataList';
+import { Search } from './components/searchForm/SearchForm';
+import { Spinner } from './components/spinner/Spinner';
+import { ThrowErrorButton } from './components/throwErrorButton/ThrowErrorButton';
 import type { Character } from './types';
 import {
   initialLocalStorage,
@@ -79,7 +79,6 @@ class App extends React.Component<object, State> {
     const { characters, loading, error, inputValue } = this.state;
 
     if (this.state.throwError) {
-      throw new Error('Testing error');
       throw new Error('Testing error');
     }
 

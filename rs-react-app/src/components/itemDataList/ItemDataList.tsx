@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Character } from '../types';
+import type { Character } from '../../types';
 import { ItemData } from './ItemData';
 
 interface ListProps {
