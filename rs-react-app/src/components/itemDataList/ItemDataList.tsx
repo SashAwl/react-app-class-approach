@@ -1,6 +1,6 @@
 import React from 'react';
-import type { Character } from '../types';
-import { ItemData } from './ItemData';
+import type { Character } from '../../types';
+import { ItemData } from '../itemData/ItemData';
 
 interface ListProps {
   characters: Character[];
