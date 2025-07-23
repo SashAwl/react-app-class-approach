@@ -1,8 +1,8 @@
 import type { Character } from '../types';
 
-const BASE_URL = 'https://rickandmortyapi.com/api/character';
+export const BASE_URL = 'https://rickandmortyapi.com/api/character';
 
-function getRequestURL(query: string) {
+export function getRequestURL(query: string) {
   let queryString = `${BASE_URL}/?page=1`;
   queryString += query ? `&name=${query}` : '';
   return queryString;
@@ -28,6 +28,10 @@ export async function fetchCharacters(
     onSuccess(dataJSON.results);
   } catch (error) {
     console.log(error);
-    onError('No characters found for your query');
+    if (error instanceof Error) {
+      onError(error.message);
+    } else {
+      onError('Unexpected error');
+    }
   }
 }
