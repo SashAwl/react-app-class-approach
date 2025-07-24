@@ -2,16 +2,21 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, test, vi, expect } from 'vitest';
 import * as storage from './utilize/utilizeLocalStorage';
+import { mockData } from './utilize/mockData';
+
+vi.mock('@/utils/fetchCharacters', () => ({
+  fetchCharacters: vi.fn((_query, onSuccess) => {
+    onSuccess(mockData.results);
+    return Promise.resolve();
+  }),
+}));
+
 import App from './App';
 
 describe('Tests App component', () => {
   describe('Implements localStorage operations', () => {
     vi.mock('@/components/ErrorMessage', () => ({
       default: () => <div data-testid="mock-error-message" />,
-    }));
-
-    vi.mock('@/components/ItemDataList', () => ({
-      default: () => <div data-testid="mock-item-data-list" />,
     }));
 
     vi.mock('@/components/ThrowErrorButton', () => ({
@@ -65,4 +70,14 @@ describe('Tests App component', () => {
       );
     });
   });
+
+  test('Shows loading state while fetching data', async () => {
+    render(<App />);
+
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+
+    const items = await screen.findAllByText(/rick/i);
+    expect(items.length).toBeGreaterThan(0);
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+  }, 7000);
 });

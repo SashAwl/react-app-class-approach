@@ -17,15 +17,6 @@ describe('Results/CardList Component Tests', () => {
   test('Displays "no results" message when data array is empty', async () => {
     render(<ItemDataList characters={[]} />);
 
-    const items = await screen.findAllByText(/rick/i);
-    expect(items).toHaveLength(0);
-  });
-
-  test('Shows loading state while fetching data', async () => {
-    render(<ItemDataList characters={mockData.results} />);
-
-    expect(screen.getByText(/loading.../i)).toBeInTheDocument();
-    await screen.findByText('Rick');
-    expect(screen.queryByText(/loading.../i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/rick/i)).not.toBeInTheDocument();
   });
 });
