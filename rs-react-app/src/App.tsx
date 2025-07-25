@@ -1,5 +1,4 @@
 import './App.css';
-import { ErrorMessage } from './components/errorMessage/ErrorMessage';
 import { ItemDataList } from './components/itemDataList/ItemDataList';
 import { Search } from './components/searchForm/SearchForm';
 import { Spinner } from './components/spinner/Spinner';
@@ -11,91 +10,83 @@ import {
   getTermFromLocalStorage,
 } from './utilize/utilizeLocalStorage';
 import { fetchCharacters } from './utilize/utilizeAPI';
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { ErrorMessage } from './components/errorMessage/ErrorMessage';
 
-interface State {
-  characters: Character[];
-  loading: boolean;
-  error: string | null;
-  query: string;
-  inputValue: string;
-  throwError: boolean;
-}
+export const App = () => {
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
+  const [inputValue, setInputValue] = useState('');
+  const [throwError, setThrowError] = useState(false);
 
-class App extends React.Component<object, State> {
-  state = {
-    characters: [],
-    loading: true,
-    error: null,
-    query: '',
-    inputValue: '',
-    throwError: false,
-  };
+  if (throwError) {
+    throw new Error('Testing error');
+  }
 
-  fetchData = async () => {
-    this.setState({ loading: true });
+  const fetchData = async () => {
+    setLoading(true);
     fetchCharacters(
-      this.state.query,
+      query,
       (characters) => {
-        this.setState({ characters, loading: false, error: null });
+        setCharacters(characters);
+        setLoading(false);
+        // setError(null);
       },
       (message) => {
         console.log(message);
-        this.setState({
-          error: 'No characters found for your query',
-          loading: false,
-        });
+        setError('No characters found for your query');
+        setLoading(false);
       }
     );
   };
 
-  componentDidMount(): void {
+  useEffect(() => {
     initialLocalStorage();
 
     const term = getTermFromLocalStorage();
     if (term) {
-      this.setState({ inputValue: term, query: term }, () => this.fetchData());
+      setInputValue(term);
+      setQuery(term);
     } else {
-      this.fetchData();
+      fetchData();
     }
-  }
+  }, []);
 
-  handleClickSearch = () => {
-    const queryValue = this.state.inputValue.trim();
-    this.setState({ query: queryValue, loading: true }, () => this.fetchData());
+  useEffect(() => {
+    if (query) {
+      fetchData();
+    }
+  }, [query]);
+
+  const handleClickSearch = () => {
+    const queryValue = inputValue.trim();
+    setQuery(queryValue);
+    setLoading(true);
     setTermToLocalStorage(queryValue);
   };
 
-  handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target?.value;
-    this.setState({ inputValue: inputValue });
+    setInputValue(inputValue);
   };
 
-  handleErrorClick = () => {
-    this.setState({ throwError: true });
+  const handleErrorClick = () => {
+    setThrowError(true);
   };
 
-  render() {
-    const { characters, loading, error, inputValue } = this.state;
-
-    if (this.state.throwError) {
-      throw new Error('Testing error');
-    }
-
-    return (
-      <>
-        <Search
-          inputValue={inputValue}
-          onChange={this.handleChangeInput}
-          onSearch={this.handleClickSearch}
-        />
-        {loading && <Spinner />}
-        {error && <ErrorMessage error={error} />}
-        {!loading && !error && <ItemDataList characters={characters} />}
-        <ThrowErrorButton handleThrowError={this.handleErrorClick} />
-      </>
-    );
-  }
-}
-
-export default App;
+  return (
+    <>
+      <Search
+        inputValue={inputValue}
+        onChange={handleChangeInput}
+        onSearch={handleClickSearch}
+      />
+      {loading && <Spinner />}
+      {error && <ErrorMessage error={error} />}
+      {!loading && !error && <ItemDataList characters={characters} />}
+      <ThrowErrorButton handleThrowError={handleErrorClick} />
+    </>
+  );
+};

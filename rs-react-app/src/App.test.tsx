@@ -11,7 +11,7 @@ vi.mock('@/utils/fetchCharacters', () => ({
   }),
 }));
 
-import App from './App';
+import { App } from './App';
 
 describe('Tests App component', () => {
   describe('Implements localStorage operations', () => {
