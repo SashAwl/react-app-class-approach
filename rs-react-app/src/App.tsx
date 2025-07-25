@@ -10,7 +10,7 @@ import {
   getTermFromLocalStorage,
 } from './utilize/utilizeLocalStorage';
 import { fetchCharacters } from './utilize/utilizeAPI';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ErrorMessage } from './components/errorMessage/ErrorMessage';
 
 export const App = () => {
@@ -25,14 +25,14 @@ export const App = () => {
     throw new Error('Testing error');
   }
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     fetchCharacters(
       query,
       (characters) => {
         setCharacters(characters);
         setLoading(false);
-        // setError(null);
+        setError(null);
       },
       (message) => {
         console.log(message);
@@ -40,7 +40,7 @@ export const App = () => {
         setLoading(false);
       }
     );
-  };
+  }, [query]);
 
   useEffect(() => {
     initialLocalStorage();
@@ -52,13 +52,13 @@ export const App = () => {
     } else {
       fetchData();
     }
-  }, []);
+  }, [fetchData]);
 
   useEffect(() => {
     if (query) {
       fetchData();
     }
-  }, [query]);
+  }, [query, fetchData]);
 
   const handleClickSearch = () => {
     const queryValue = inputValue.trim();
