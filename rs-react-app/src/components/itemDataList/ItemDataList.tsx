@@ -8,7 +8,6 @@ interface ListProps {
 export const ItemDataList = ({ characters }: ListProps) => {
   return (
     <section>
-      <h2>Your results</h2>
       <div className="flex flex-col items-center">
         {characters.map((item: Character) => (
           <ItemData item={item} key={item.id} />

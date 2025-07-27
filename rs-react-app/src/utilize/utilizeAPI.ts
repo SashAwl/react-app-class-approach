@@ -35,3 +35,31 @@ export async function fetchCharacters(
     }
   }
 }
+
+export async function fetchCharacterItem(
+  id: number,
+  onSuccess: (characters: Character) => void,
+  onError: (message: string) => void
+) {
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`);
+    const dataJSON = await response.json();
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('No character data found for your query');
+      } else {
+        throw new Error(`Server error: ${response.status}`);
+      }
+    }
+
+    onSuccess(dataJSON);
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error) {
+      onError(error.message);
+    } else {
+      onError('Unexpected error');
+    }
+  }
+}
