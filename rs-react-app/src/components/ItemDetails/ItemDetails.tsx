@@ -12,25 +12,22 @@ export const ItemDetails = () => {
   const { itemId } = useParams<{ itemId: string }>();
   const navigate = useNavigate();
 
-  const fetchDataCharacter = useCallback(
-    async (id: number) => {
-      setLoadingItem(true);
-      fetchCharacterItem(
-        id,
-        (character) => {
-          setCharacter(character);
-          setLoadingItem(false);
-          setError(null);
-        },
-        (message) => {
-          console.log(message);
-          setError('No characters found for your query');
-          setLoadingItem(false);
-        }
-      );
-    },
-    [itemId]
-  );
+  const fetchDataCharacter = useCallback(async (id: number) => {
+    setLoadingItem(true);
+    fetchCharacterItem(
+      id,
+      (character) => {
+        setCharacter(character);
+        setLoadingItem(false);
+        setError(null);
+      },
+      (message) => {
+        console.log(message);
+        setError('No characters found for your query');
+        setLoadingItem(false);
+      }
+    );
+  }, []);
 
   useEffect(() => {
     if (character) {
