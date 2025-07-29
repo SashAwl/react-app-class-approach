@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchCharacterItem } from '../../utilize/utilizeAPI';
-import type { Character } from '../../types';
-import { Spinner } from '../spinner/Spinner';
-import { ErrorMessage } from '../errorMessage/ErrorMessage';
+import { fetchCharacterItem } from '../../utils/apiUtils';
+import type { Character } from '../../types/characterTypes';
+import { Spinner } from '../Spinner/Spinner';
+import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
 export const ItemDetails = () => {
   const [character, setCharacter] = useState<Character | null>(null);

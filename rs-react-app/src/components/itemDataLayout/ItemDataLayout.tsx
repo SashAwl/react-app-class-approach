@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import type { Character } from '../../types';
-import { fetchCharacters } from '../../utilize/utilizeAPI';
+import type { Character } from '../../types/characterTypes';
+import { fetchCharacters } from '../../utils/apiUtils';
 import {
   getTermFromLocalStorage,
   initialLocalStorage,
   setTermToLocalStorage,
-} from '../../utilize/utilizeLocalStorage';
-import { ItemDataList } from '../itemDataList/ItemDataList';
-import { ErrorMessage } from '../errorMessage/ErrorMessage';
-import { Search } from '../searchForm/SearchForm';
-import { Spinner } from '../spinner/Spinner';
+} from '../../utils/localStorageUtils';
+import { ItemDataList } from '../ItemDataList/ItemDataList';
+import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
+import { Search } from '../SearchForm/SearchForm';
+import { Spinner } from '../Spinner/Spinner';
 
 export const ItemDataLayout = () => {
   const [characters, setCharacters] = useState<Character[]>([]);

@@ -1,4 +1,4 @@
-import type { Character } from '../types';
+import type { Character } from '../types/characterTypes';
 
 export const BASE_URL = 'https://rickandmortyapi.com/api/character';
 

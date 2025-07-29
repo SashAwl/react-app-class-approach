@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import type { Character } from '../../types';
+import type { Character } from '../../types/characterTypes';
 
 interface ItemProps {
   item: Character;

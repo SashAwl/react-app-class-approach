@@ -1,5 +1,5 @@
-import type { Character } from '../../types';
-import { ItemData } from '../itemData/ItemData';
+import type { Character } from '../../types/characterTypes';
+import { ItemData } from '../ItemData/ItemData';
 
 interface ListProps {
   characters: Character[];

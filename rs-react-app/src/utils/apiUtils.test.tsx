@@ -1,7 +1,7 @@
 import { vi, describe, expect, test, beforeEach } from 'vitest';
-import { fetchCharacters } from './utilizeAPI';
+import { fetchCharacters } from './apiUtils';
 import { mockData } from './mockData';
-import * as utilize from './utilizeAPI';
+import * as utils from './apiUtils';
 
 describe('API Integration Tests', () => {
   beforeEach(() => {
@@ -10,9 +10,9 @@ describe('API Integration Tests', () => {
 
   test('Calls fetch with correct URL', async () => {
     const query = 'rick';
-    const mockUrl = `${utilize.BASE_URL}/?page=1&name=${query}`;
+    const mockUrl = `${utils.BASE_URL}/?page=1&name=${query}`;
 
-    vi.spyOn(utilize, 'getRequestURL').mockReturnValue(mockUrl);
+    vi.spyOn(utils, 'getRequestURL').mockReturnValue(mockUrl);
 
     global.fetch = vi.fn().mockResolvedValue({
       ok: true,

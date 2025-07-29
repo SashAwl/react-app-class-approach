@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import { screen } from '@testing-library/react';
-import { mockData } from '../../utilize/mockData';
+import { mockData } from '../../utils/mockData';
 import { ItemDataList } from './ItemDataList';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';

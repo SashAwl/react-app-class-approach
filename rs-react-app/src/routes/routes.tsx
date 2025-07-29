@@ -1,7 +1,7 @@
 import { ItemDetails } from '../components/ItemDetails/ItemDetails';
-import { About } from '../pages/about/About';
-import { ItemDataLayout } from '../components/itemDataLayout/ItemDataLayout';
-import { NotFound } from '../pages/notFound/NotFound';
+import { About } from '../pages/About/About';
+import { ItemDataLayout } from '../components/ItemDataLayout/ItemDataLayout';
+import { NotFound } from '../pages/NotFound/NotFound';
 
 const routes = [
   {

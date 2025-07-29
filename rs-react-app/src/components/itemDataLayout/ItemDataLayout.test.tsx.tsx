@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, test, vi, expect } from 'vitest';
-import * as storage from '../../utilize/utilizeLocalStorage';
-import { mockData } from '../../utilize/mockData';
+import * as storage from '../../utils/localStorageUtils';
+import { mockData } from '../../utils/mockData';
 
 vi.mock('@/utils/fetchCharacters', () => ({
   fetchCharacters: vi.fn((_query, onSuccess) => {
@@ -11,7 +11,7 @@ vi.mock('@/utils/fetchCharacters', () => ({
   }),
 }));
 
-import { App } from '../../App';
+import { App } from '../../App/App';
 
 describe('Tests App component', () => {
   describe('Implements localStorage operations', () => {
