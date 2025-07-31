@@ -16,6 +16,10 @@ const routes = [
         path: ':itemId',
         element: <ItemDetails />,
       },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
   },
   {

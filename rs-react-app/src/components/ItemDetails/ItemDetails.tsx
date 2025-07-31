@@ -45,11 +45,18 @@ export const ItemDetails = () => {
     <div className="relative">
       {loadingItem && <Spinner />}
       {error && <ErrorMessage error={error} />}
-      {!loadingItem && !error && <h3>{character?.name}</h3>}
-      <img src={character?.image} alt="photo" />
-      <button className="absolute right-1 top-" onClick={() => navigate(`/`)}>
-        X
-      </button>
+      {!loadingItem && !error && (
+        <div>
+          <h3>{character?.name}</h3>
+          <img src={character?.image} alt="photo" />
+          <button
+            className="absolute right-1 top-"
+            onClick={() => navigate(`/`)}
+          >
+            X
+          </button>
+        </div>
+      )}
     </div>
   );
 };
