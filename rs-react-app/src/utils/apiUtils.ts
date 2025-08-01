@@ -2,19 +2,20 @@ import type { Character } from '../types/characterTypes';
 
 export const BASE_URL = 'https://rickandmortyapi.com/api/character';
 
-export function getRequestURL(query: string) {
-  let queryString = `${BASE_URL}/?page=1`;
+export function getRequestURL(query: string, page: number) {
+  let queryString = `${BASE_URL}/?page=${page}`;
   queryString += query ? `&name=${query}` : '';
   return queryString;
 }
 
 export async function fetchCharacters(
   query: string,
-  onSuccess: (characters: Character[]) => void,
+  page: number,
+  onSuccess: (characters: Character[], totalPages: number) => void,
   onError: (message: string) => void
 ) {
   try {
-    const response = await fetch(getRequestURL(query));
+    const response = await fetch(getRequestURL(query, page));
     const dataJSON = await response.json();
 
     if (!response.ok) {
@@ -25,7 +26,7 @@ export async function fetchCharacters(
       }
     }
 
-    onSuccess(dataJSON.results);
+    onSuccess(dataJSON.results, dataJSON.info.pages);
   } catch (error) {
     console.log(error);
     if (error instanceof Error) {

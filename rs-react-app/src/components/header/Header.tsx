@@ -12,11 +12,12 @@ export const Header = () => {
     setThrowError(true);
   };
   return (
-    <div className="w-full justify-center flex gap-4 mb-8">
-      {' '}
-      {/* style={{ gap: '20px', marginBottom: '30px' }} */}
+    <div
+      className="w-full justify-center flex gap-4 mb-8"
+      style={{ gap: '20px', marginBottom: '30px' }}
+    >
       <button>
-        <Link to="/" className="no-underline text-black mr-8">
+        <Link to="/characters?page=1" className="no-underline text-black mr-8">
           Home
         </Link>
       </button>

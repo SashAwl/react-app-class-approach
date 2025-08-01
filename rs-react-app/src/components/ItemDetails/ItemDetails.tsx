@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { fetchCharacterItem } from '../../utils/apiUtils';
 import type { Character } from '../../types/characterTypes';
 import { Spinner } from '../Spinner/Spinner';
@@ -11,6 +11,9 @@ export const ItemDetails = () => {
   const [error, setError] = useState<string | null>(null);
   const { itemId } = useParams<{ itemId: string }>();
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const currentPage = searchParams.get('page') || '1';
 
   const fetchDataCharacter = useCallback(async (id: number) => {
     setLoadingItem(true);
@@ -41,6 +44,10 @@ export const ItemDetails = () => {
     }
   }, [fetchDataCharacter, itemId]);
 
+  const handleClickClose = () => {
+    navigate(`/characters?page=${currentPage}`);
+  };
+
   return (
     <div className="relative">
       {loadingItem && <Spinner />}
@@ -50,8 +57,8 @@ export const ItemDetails = () => {
           <h3>{character?.name}</h3>
           <img src={character?.image} alt="photo" />
           <button
-            className="absolute right-1 top-"
-            onClick={() => navigate(`/`)}
+            className="absolute right-1 top-0 hover:cursor-pointer hover:bg-red-500"
+            onClick={() => handleClickClose()}
           >
             X
           </button>

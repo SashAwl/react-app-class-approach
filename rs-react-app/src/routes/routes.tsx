@@ -5,7 +5,7 @@ import { NotFound } from '../pages/NotFound/NotFound';
 
 const routes = [
   {
-    path: '/',
+    path: '/characters/',
     element: <ItemDataLayout />,
     children: [
       {
