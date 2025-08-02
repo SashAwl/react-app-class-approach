@@ -45,11 +45,6 @@ export const ItemDataLayout = () => {
     );
   }, [query, currentPage]);
 
-  const redirectToFirstPage = useCallback(
-    () => navigate(`/characters?page=1`),
-    []
-  );
-
   useEffect(() => {
     initialLocalStorage();
 
@@ -69,8 +64,8 @@ export const ItemDataLayout = () => {
   }, [query, fetchData, currentPage]);
 
   useEffect(() => {
-    redirectToFirstPage();
-  }, [query, redirectToFirstPage]);
+    navigate('/characters?page=1');
+  }, [query]);
 
   useEffect(() => {
     const pageFromQuery = searchParams.get('page') || '1';
@@ -104,23 +99,29 @@ export const ItemDataLayout = () => {
         onChange={handleChangeInput}
         onSearch={handleClickSearch}
       />
+      {!error && <h2>Your results</h2>}
       {loading && <Spinner />}
       {error && <ErrorMessage error={error} />}
-      <h2>Your results</h2>
-      <div className="flex">
-        <div className="w-1/2">
-          {!loading && !error && characters.length > 0 && (
-            <ItemDataList characters={characters} />
-          )}
+      {!error && (
+        <div className="flex">
+          <div className="w-1/2">
+            {!loading && !error && characters.length > 0 && (
+              <ItemDataList characters={characters} />
+            )}
+          </div>
+          <div className="w-1/2 border-l pl-4">
+            <div className="sticky top-1/2 -translate-y-1/2">
+              {!loading && !error && <Outlet />}
+            </div>
+          </div>
         </div>
-        <div className="w-1/2 border-l pl-4">
-          {!loading && !error && <Outlet />}
-        </div>
-      </div>
-      <Pagination
-        totalPages={totalPages}
-        handlePagination={handleClickPagination}
-      />
+      )}
+      {!loading && !error && (
+        <Pagination
+          totalPages={totalPages}
+          handlePagination={handleClickPagination}
+        />
+      )}
     </>
   );
 };

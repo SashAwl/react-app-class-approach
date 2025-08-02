@@ -13,11 +13,15 @@ export const ItemData = ({ item }: ItemProps) => {
   if (!item) {
     throw new Error('Missing item prop');
   }
+
+  const handlerClickItem = () => {
+    navigate(`/characters/${item.id}?page=${currentPage}`);
+  };
   return (
     <div className="grid grid-cols-2 gap-4" style={{ gap: '40px' }}>
       <h3
         className="text-right  hover:cursor-pointer"
-        onClick={() => navigate(`/characters/${item.id}?page=${currentPage}`)}
+        onClick={handlerClickItem}
       >
         {item.name}
       </h3>
