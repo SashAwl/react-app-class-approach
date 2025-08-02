@@ -1,4 +1,7 @@
 export const mockData = {
+  info: {
+    pages: 5,
+  },
   results: [
     {
       id: 0,

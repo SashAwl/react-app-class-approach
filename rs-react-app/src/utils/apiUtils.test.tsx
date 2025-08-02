@@ -10,7 +10,8 @@ describe('API Integration Tests', () => {
 
   test('Calls fetch with correct URL', async () => {
     const query = 'rick';
-    const mockUrl = `${utils.BASE_URL}/?page=1&name=${query}`;
+    const page = 1;
+    const mockUrl = `${utils.BASE_URL}/?page=${page}&name=${query}`;
 
     vi.spyOn(utils, 'getRequestURL').mockReturnValue(mockUrl);
 
@@ -22,7 +23,7 @@ describe('API Integration Tests', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
 
-    await fetchCharacters(query, onSuccess, onError);
+    await fetchCharacters(query, page, onSuccess, onError);
 
     expect(global.fetch).toHaveBeenCalledWith(mockUrl);
   });
@@ -36,9 +37,12 @@ describe('API Integration Tests', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
 
-    await fetchCharacters('rick', onSuccess, onError);
+    await fetchCharacters('rick', 1, onSuccess, onError);
 
-    expect(onSuccess).toHaveBeenCalledWith(mockData.results);
+    expect(onSuccess).toHaveBeenCalledWith(
+      mockData.results,
+      mockData.info.pages
+    );
   });
 
   test('Handles API error 404 responses', async () => {
@@ -52,7 +56,7 @@ describe('API Integration Tests', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
 
-    await fetchCharacters('rick', onSuccess, onError);
+    await fetchCharacters('rick', 1, onSuccess, onError);
 
     expect(onError).toHaveBeenCalledWith('No characters found for your query');
   });
@@ -67,7 +71,7 @@ describe('API Integration Tests', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
 
-    await fetchCharacters('rick', onSuccess, onError);
+    await fetchCharacters('rick', 1, onSuccess, onError);
 
     expect(onError).toHaveBeenCalledWith(`Server error: 500`);
   });
@@ -78,7 +82,7 @@ describe('API Integration Tests', () => {
     const onSuccess = vi.fn();
     const onError = vi.fn();
 
-    await fetchCharacters('rick', onSuccess, onError);
+    await fetchCharacters('rick', 1, onSuccess, onError);
 
     expect(onError).toHaveBeenCalledWith(`Unexpected error`);
   });

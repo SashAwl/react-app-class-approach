@@ -5,7 +5,8 @@ import * as storage from '../../utils/localStorageUtils';
 import { mockData } from '../../utils/mockData';
 
 vi.mock('@/utils/fetchCharacters', () => ({
-  fetchCharacters: vi.fn((_query, onSuccess) => {
+  fetchCharacters: vi.fn((_query, _page, onSuccess, _onError) => {
+    void _onError;
     onSuccess(mockData.results);
     return Promise.resolve();
   }),

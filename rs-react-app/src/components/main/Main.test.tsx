@@ -6,7 +6,7 @@ import { describe, expect, test } from 'vitest';
 describe('Main', () => {
   test('renders start route by default', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={['/characters']}>
         <Main />
       </MemoryRouter>
     );
@@ -32,6 +32,6 @@ describe('Main', () => {
     );
 
     expect(screen.queryByText('About Page')).not.toBeInTheDocument();
-    // expect(screen.queryByText('Your results')).not.toBeInTheDocument();
+    expect(screen.queryByText('Your results')).not.toBeInTheDocument();
   });
 });

@@ -55,7 +55,7 @@ export const ItemDataLayout = () => {
     } else {
       fetchData();
     }
-  }, []);
+  }, [fetchData]);
 
   useEffect(() => {
     if (query || currentPage > 1) {
@@ -65,7 +65,7 @@ export const ItemDataLayout = () => {
 
   useEffect(() => {
     navigate(`/characters?page=1`);
-  }, [query]);
+  }, [query, navigate]);
 
   useEffect(() => {
     const pageFromQuery = searchParams.get('page') || '1';
