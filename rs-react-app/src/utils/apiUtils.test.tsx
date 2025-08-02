@@ -61,7 +61,7 @@ describe('API Integration Tests', () => {
     expect(onError).toHaveBeenCalledWith('No characters found for your query');
   });
 
-  test('Handles any API error responses exept 404 error', async () => {
+  test('Handles any API error responses except 404 error', async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
       status: 500,

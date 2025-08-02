@@ -45,6 +45,11 @@ export const ItemDataLayout = () => {
     );
   }, [query, currentPage]);
 
+  const redirectToFirstPage = useCallback(
+    () => navigate(`/characters?page=1`),
+    []
+  );
+
   useEffect(() => {
     initialLocalStorage();
 
@@ -64,8 +69,8 @@ export const ItemDataLayout = () => {
   }, [query, fetchData, currentPage]);
 
   useEffect(() => {
-    navigate(`/characters?page=1`);
-  }, [query, navigate]);
+    redirectToFirstPage();
+  }, [query, redirectToFirstPage]);
 
   useEffect(() => {
     const pageFromQuery = searchParams.get('page') || '1';

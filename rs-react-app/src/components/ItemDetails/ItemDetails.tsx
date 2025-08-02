@@ -33,12 +33,6 @@ export const ItemDetails = () => {
   }, []);
 
   useEffect(() => {
-    if (character) {
-      console.log('character loaded:', character);
-    }
-  }, [character]);
-
-  useEffect(() => {
     if (itemId) {
       fetchDataCharacter(+itemId);
     }

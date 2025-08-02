@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom';
 import { ItemDetails } from '../components/ItemDetails/ItemDetails';
 import { About } from '../pages/About/About';
 import { ItemDataLayout } from '../components/ItemDataLayout/ItemDataLayout';
@@ -21,6 +22,10 @@ const routes = [
         element: <NotFound />,
       },
     ],
+  },
+  {
+    path: '/',
+    element: <Navigate to="/characters/" />,
   },
   {
     path: '/about',
