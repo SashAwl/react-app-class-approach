@@ -1,6 +1,8 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { Character } from '../../types/characterTypes';
 import { useEffect } from 'react';
+import { toggleSelect, type RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface ItemProps {
   item: Character;
@@ -8,6 +10,9 @@ interface ItemProps {
 
 export const ItemData = ({ item }: ItemProps) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const selected = useSelector((state: RootState) => state.selectedItems);
+
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || '1';
 
@@ -21,9 +26,13 @@ export const ItemData = ({ item }: ItemProps) => {
     navigate(`/characters/${item.id}?page=${currentPage}`);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e);
+  const handleChange = (id: number) => {
+    dispatch(toggleSelect(id));
   };
+
+  function isSelected(id: number, list: number[]) {
+    return list.includes(id);
+  }
 
   return (
     <div className="grid grid-cols-2 gap-8">
@@ -35,7 +44,8 @@ export const ItemData = ({ item }: ItemProps) => {
           type="checkbox"
           name="check"
           id={'nameItem' + item.id}
-          onChange={(e) => handleChange(e)}
+          checked={isSelected(item.id, selected)}
+          onChange={() => handleChange(item.id)}
         />
         <label htmlFor={'nameItem' + item.id}>
           {' '}
