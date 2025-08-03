@@ -20,13 +20,27 @@ export const ItemData = ({ item }: ItemProps) => {
   const handlerClickItem = () => {
     navigate(`/characters/${item.id}?page=${currentPage}`);
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
+  };
+
   return (
     <div className="grid grid-cols-2 gap-8">
       <h3
         className="text-right  hover:cursor-pointer"
         onClick={handlerClickItem}
       >
-        {item.name || 'No name for this character'}
+        <input
+          type="checkbox"
+          name="check"
+          id={'nameItem' + item.id}
+          onChange={(e) => handleChange(e)}
+        />
+        <label htmlFor={'nameItem' + item.id}>
+          {' '}
+          {item.name || 'No name for this character'}
+        </label>
       </h3>
       <div className="text-left">
         <p>Gender: {item.gender || 'No gender for this character'}</p>
