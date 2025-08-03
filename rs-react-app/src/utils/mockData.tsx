@@ -19,3 +19,12 @@ export const mockData = {
     },
   ],
 };
+
+export const mockItemData = {
+  id: 0,
+  name: 'Rick',
+  gender: 'Male',
+  status: 'Alive',
+  species: 'Human',
+  image: 'https://example.com/rick.png',
+};

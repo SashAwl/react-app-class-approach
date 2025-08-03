@@ -13,6 +13,7 @@ vi.mock('@/utils/fetchCharacters', () => ({
 }));
 
 import { App } from '../../App/App';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Tests App component', () => {
   describe('Implements localStorage operations', () => {
@@ -32,14 +33,22 @@ describe('Tests App component', () => {
       const mockInitial = vi
         .spyOn(storage, 'initialLocalStorage')
         .mockImplementation(() => {});
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
       expect(mockInitial).toHaveBeenCalled();
     });
 
     test('Displays previously saved search term from localStorage on mount', () => {
       vi.spyOn(storage, 'getTermFromLocalStorage').mockReturnValue('test term');
 
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
       const input = screen.getByPlaceholderText(/input search/i);
       expect(input).toBeInTheDocument();
       expect(input).toHaveValue('test term');
@@ -48,7 +57,11 @@ describe('Tests App component', () => {
     test('Shows empty input when no saved term exists', () => {
       vi.spyOn(storage, 'getTermFromLocalStorage').mockReturnValue('');
 
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
       const input = screen.getByPlaceholderText(/input search/i);
       expect(input).toBeInTheDocument();
       expect(input).toHaveValue('');
@@ -57,7 +70,11 @@ describe('Tests App component', () => {
     test('Trims whitespace from search input before saving', async () => {
       vi.spyOn(storage, 'setTermToLocalStorage').mockImplementation(() => {});
 
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
 
       const input = screen.getByPlaceholderText(/input search/i);
       const button = screen.getByRole('button', { name: /search/i });
@@ -73,7 +90,11 @@ describe('Tests App component', () => {
   });
 
   test('Shows loading state while fetching data', async () => {
-    render(<App />);
+    render(
+      <MemoryRouter>
+        <App />;
+      </MemoryRouter>
+    );
 
     expect(screen.getByText(/loading/i)).toBeInTheDocument();
 

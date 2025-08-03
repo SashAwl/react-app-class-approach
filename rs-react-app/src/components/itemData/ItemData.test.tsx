@@ -1,33 +1,19 @@
-// tests/ItemData.test.tsx
 import { describe, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ItemData } from './ItemData';
 import { MemoryRouter } from 'react-router-dom';
-
-const mockCharacter = {
-  id: 1,
-  name: 'Rick Sanchez',
-  gender: 'Male',
-  status: 'Alive',
-  species: 'Human',
-};
+import { mockItemData } from '../../utils/mockData';
 
 describe('ItemData component', () => {
   test('Displays item name and description correctly', () => {
     render(
       <MemoryRouter>
-        <ItemData item={mockCharacter} />
+        <ItemData item={mockItemData} />
       </MemoryRouter>
     );
-    expect(screen.getByText(/rick sanchez/i)).toBeInTheDocument();
+    expect(screen.getByText(/rick/i)).toBeInTheDocument();
     expect(screen.getByText(/gender: male/i)).toBeInTheDocument();
     expect(screen.getByText(/status: alive/i)).toBeInTheDocument();
     expect(screen.getByText(/species: human/i)).toBeInTheDocument();
   });
-
-  // test('Handles missing props gracefully', () => {
-  //   const renderWithoutProps = () => render(<ItemData />);
-
-  //   expect(renderWithoutProps).toThrowError();
-  // });
 });
