@@ -12,7 +12,7 @@ export function renderApp() {
   if (rootElement) {
     createRoot(rootElement).render(
       <StrictMode>
-        <BrowserRouter>
+        <BrowserRouter basename="react-app-class-approach">
           <ErrorBoundary>
             <Provider store={store}>
               <App />
