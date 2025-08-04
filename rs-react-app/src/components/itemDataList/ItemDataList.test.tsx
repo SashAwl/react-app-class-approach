@@ -4,16 +4,13 @@ import { mockData } from '../../constants/mockData';
 import { ItemDataList } from './ItemDataList';
 import { render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { renderWithProviders } from '../../__tests__/testUtils';
 
 global.fetch = vi.fn();
 
 describe('Results/CardList Component Tests', () => {
   test('Renders correct number of items when data is provided', async () => {
-    render(
-      <MemoryRouter>
-        <ItemDataList characters={mockData.results} />
-      </MemoryRouter>
-    );
+    renderWithProviders(<ItemDataList characters={mockData.results} />);
 
     const items = await screen.findAllByText(/rick/i);
     expect(items).toHaveLength(2);

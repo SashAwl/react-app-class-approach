@@ -1,16 +1,12 @@
 import { describe, test, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import { ItemData } from './ItemData';
-import { MemoryRouter } from 'react-router-dom';
 import { mockItemData } from '../../constants/mockData';
+import { renderWithProviders } from '../../__tests__/testUtils';
 
 describe('ItemData component', () => {
   test('Displays item name and description correctly', () => {
-    render(
-      <MemoryRouter>
-        <ItemData item={mockItemData} />
-      </MemoryRouter>
-    );
+    renderWithProviders(<ItemData item={mockItemData} />);
     expect(screen.getByText(/rick/i)).toBeInTheDocument();
     expect(screen.getByText(/gender: male/i)).toBeInTheDocument();
     expect(screen.getByText(/status: alive/i)).toBeInTheDocument();
