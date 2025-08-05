@@ -1,5 +1,6 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { Character } from '../../types/characterTypes';
+import { useEffect } from 'react';
 
 interface ItemProps {
   item: Character;
@@ -10,9 +11,11 @@ export const ItemData = ({ item }: ItemProps) => {
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || '1';
 
-  if (!item) {
-    throw new Error('Missing item prop');
-  }
+  useEffect(() => {
+    if (!item) {
+      throw new Error('Missing item prop');
+    }
+  }, [item]);
 
   const handlerClickItem = () => {
     navigate(`/characters/${item.id}?page=${currentPage}`);
@@ -23,12 +26,12 @@ export const ItemData = ({ item }: ItemProps) => {
         className="text-right  hover:cursor-pointer"
         onClick={handlerClickItem}
       >
-        {item.name}
+        {item.name || 'No name for this character'}
       </h3>
       <div className="text-left">
-        <p>Gender: {item.gender}</p>
-        <p>Status: {item.status}</p>
-        <p>Species: {item.species}</p>
+        <p>Gender: {item.gender || 'No gender for this character'}</p>
+        <p>Status: {item.status || 'No status for this character'}</p>
+        <p>Species: {item.species || 'No species for this character'}</p>
       </div>
     </div>
   );

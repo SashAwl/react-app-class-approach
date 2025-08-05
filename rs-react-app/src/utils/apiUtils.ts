@@ -15,7 +15,8 @@ export async function fetchCharacters(
   onError: (message: string) => void
 ) {
   try {
-    const response = await fetch(getRequestURL(query, page));
+    const requestUrl = getRequestURL(query, page);
+    const response = await fetch(requestUrl);
     const dataJSON = await response.json();
 
     if (!response.ok) {
@@ -28,7 +29,7 @@ export async function fetchCharacters(
 
     onSuccess(dataJSON.results, dataJSON.info.pages);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     if (error instanceof Error) {
       onError(error.message);
     } else {

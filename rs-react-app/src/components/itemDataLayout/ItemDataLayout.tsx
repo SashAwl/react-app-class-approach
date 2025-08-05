@@ -15,7 +15,7 @@ import { Pagination } from '../Pagination/Pagination';
 
 export const ItemDataLayout = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,20 +27,20 @@ export const ItemDataLayout = () => {
   const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
-    setLoading(true);
+    setIsLoading(true);
     fetchCharacters(
       query,
       currentPage,
       (characters, totalPages) => {
         setCharacters(characters);
-        setLoading(false);
+        setIsLoading(false);
         setTotalPages(totalPages);
         setError(null);
       },
       (message) => {
         console.log(message);
         setError('No characters found for your query');
-        setLoading(false);
+        setIsLoading(false);
       }
     );
   }, [query, currentPage]);
@@ -69,13 +69,13 @@ export const ItemDataLayout = () => {
 
   useEffect(() => {
     const pageFromQuery = searchParams.get('page') || '1';
-    setCurrentPage(+pageFromQuery);
+    setCurrentPage(Number(pageFromQuery));
   }, [searchParams]);
 
   const handleClickSearch = () => {
     const queryValue = inputValue.trim();
     setQuery(queryValue);
-    setLoading(true);
+    setIsLoading(true);
     setTermToLocalStorage(queryValue);
   };
 
@@ -88,7 +88,7 @@ export const ItemDataLayout = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     const page = event.currentTarget?.value;
-    setCurrentPage(+page);
+    setCurrentPage(Number(page));
     navigate(`/characters?page=${page}`);
   };
 
@@ -100,23 +100,23 @@ export const ItemDataLayout = () => {
         onSearch={handleClickSearch}
       />
       {!error && <h2>Your results</h2>}
-      {loading && <Spinner />}
+      {isLoading && <Spinner />}
       {error && <ErrorMessage error={error} />}
       {!error && (
         <div className="flex">
           <div className="w-1/2">
-            {!loading && !error && characters.length > 0 && (
+            {!isLoading && !error && characters.length > 0 && (
               <ItemDataList characters={characters} />
             )}
           </div>
           <div className="w-1/2 border-l pl-4">
             <div className="sticky top-1/2 -translate-y-1/2">
-              {!loading && !error && <Outlet />}
+              {!isLoading && !error && <Outlet />}
             </div>
           </div>
         </div>
       )}
-      {!loading && !error && (
+      {!isLoading && !error && (
         <Pagination
           totalPages={totalPages}
           handlePagination={handleClickPagination}

@@ -7,7 +7,7 @@ import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 
 export const ItemDetails = () => {
   const [character, setCharacter] = useState<Character | null>(null);
-  const [loadingItem, setLoadingItem] = useState(true);
+  const [isLoadingItem, setIsLoadingItem] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { itemId } = useParams<{ itemId: string }>();
   const navigate = useNavigate();
@@ -16,25 +16,25 @@ export const ItemDetails = () => {
   const currentPage = searchParams.get('page') || '1';
 
   const fetchDataCharacter = useCallback(async (id: number) => {
-    setLoadingItem(true);
+    setIsLoadingItem(true);
     fetchCharacterItem(
       id,
       (character) => {
         setCharacter(character);
-        setLoadingItem(false);
+        setIsLoadingItem(false);
         setError(null);
       },
       (message) => {
         console.log(message);
         setError('No characters found for your query');
-        setLoadingItem(false);
+        setIsLoadingItem(false);
       }
     );
   }, []);
 
   useEffect(() => {
     if (itemId) {
-      fetchDataCharacter(+itemId);
+      fetchDataCharacter(Number(itemId));
     }
   }, [fetchDataCharacter, itemId]);
 
@@ -44,12 +44,18 @@ export const ItemDetails = () => {
 
   return (
     <div className="relative">
-      {loadingItem && <Spinner />}
+      {isLoadingItem && <Spinner />}
       {error && <ErrorMessage error={error} />}
-      {!loadingItem && !error && (
+      {!isLoadingItem && !error && (
         <div>
-          <h3>{character?.name}</h3>
-          <img src={character?.image} alt="photo" />
+          <h3>{character?.name || 'No name for this character'} </h3>
+          <img
+            src={
+              character?.image ||
+              'https://avatars.mds.yandex.net/i?id=e57de7764a82904075159743c7824dbfdd83fdc2-8407394-images-thumbs&ref=rim&n=33&w=200&h=200'
+            }
+            alt="photo"
+          />
           <button
             className="absolute right-1 top-0 hover:cursor-pointer hover:bg-red-500"
             onClick={() => handleClickClose()}

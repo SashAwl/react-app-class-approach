@@ -1,6 +1,6 @@
 import { vi, describe, expect, test, beforeEach } from 'vitest';
 import { fetchCharacters } from './apiUtils';
-import { mockData } from './mockData';
+import { mockData } from '../constants/mockData';
 import * as utils from './apiUtils';
 
 describe('API Integration Tests', () => {

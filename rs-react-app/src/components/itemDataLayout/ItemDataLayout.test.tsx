@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, test, vi, expect } from 'vitest';
 import * as storage from '../../utils/localStorageUtils';
-import { mockData } from '../../utils/mockData';
+import { mockData } from '../../constants/mockData';
 
 vi.mock('@/utils/fetchCharacters', () => ({
   fetchCharacters: vi.fn((_query, _page, onSuccess, _onError) => {

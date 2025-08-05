@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
 import { ThrowErrorButton } from '../ThrowErrorButton/ThrowErrorButton';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Header = () => {
-  const [throwError, setThrowError] = useState(false);
+  const [isThrowError, setIsThrowError] = useState(false);
 
-  if (throwError) {
-    throw new Error('Testing error');
-  }
+  useEffect(() => {
+    if (isThrowError) {
+      throw new Error('Testing error');
+    }
+  }, [isThrowError]);
+
   const handleErrorClick = () => {
-    setThrowError(true);
+    setIsThrowError(true);
   };
   return (
     <div

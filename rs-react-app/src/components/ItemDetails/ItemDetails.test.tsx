@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { ItemDetails } from './ItemDetails';
 import * as api from '../../utils/apiUtils';
-import { mockItemData } from '../../utils/mockData';
+import { mockItemData } from '../../constants/mockData';
 
 const renderWithRoute = (
   ui: React.ReactElement,

@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ItemData } from './ItemData';
 import { MemoryRouter } from 'react-router-dom';
-import { mockItemData } from '../../utils/mockData';
+import { mockItemData } from '../../constants/mockData';
 
 describe('ItemData component', () => {
   test('Displays item name and description correctly', () => {
