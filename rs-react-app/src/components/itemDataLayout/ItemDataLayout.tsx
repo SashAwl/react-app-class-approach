@@ -16,6 +16,7 @@ import { Pagination } from '../Pagination/Pagination';
 export const ItemDataLayout = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSearchTriggered, setIsSearchTriggered] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,8 +65,12 @@ export const ItemDataLayout = () => {
   }, [query, fetchData, currentPage]);
 
   useEffect(() => {
-    navigate('/characters?page=1');
-  }, [query]);
+    if (isSearchTriggered) {
+      navigate('/characters?page=1');
+
+      setIsSearchTriggered(false);
+    }
+  }, [query, navigate, isSearchTriggered]);
 
   useEffect(() => {
     const pageFromQuery = searchParams.get('page') || '1';
@@ -77,6 +82,8 @@ export const ItemDataLayout = () => {
     setQuery(queryValue);
     setIsLoading(true);
     setTermToLocalStorage(queryValue);
+
+    setIsSearchTriggered(true);
   };
 
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
