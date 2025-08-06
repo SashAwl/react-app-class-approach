@@ -1,43 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-
 import { getPaginationRange } from '../../utils/paginationUtils';
 
 interface PaginationProps {
+  currentPage: number;
   totalPages: number;
-  handlePagination: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handlePagination: (page: number) => void;
 }
 
 export const Pagination = ({
+  currentPage,
   totalPages,
   handlePagination,
 }: PaginationProps) => {
-  const [searchParams] = useSearchParams();
   const [buttons, setButtons] = useState<(number | '...')[]>([]);
-  const navigate = useNavigate();
-
-  const currentPage = Number(searchParams.get('page') || '1');
 
   useEffect(() => {
-    setButtons(getPaginationRange(currentPage, totalPages));
+    const pageList = getPaginationRange(currentPage, totalPages);
+    setButtons(pageList);
   }, [currentPage, totalPages]);
-
-  const handlePaginationPrev = () => {
-    if (currentPage > 1) {
-      navigate(`/characters?page=${currentPage - 1}`);
-    }
-  };
-
-  const handlePaginationNext = () => {
-    if (currentPage < totalPages) {
-      navigate(`/characters?page=${currentPage + 1}`);
-    }
-  };
 
   return (
     <div className="flex justify-center">
       <button
-        onClick={() => handlePaginationPrev()}
+        onClick={() => handlePagination(currentPage - 1)}
         className="hover:cursor-pointer disabled:cursor-default pr-4"
         disabled={currentPage === 1}
       >
@@ -52,7 +37,7 @@ export const Pagination = ({
           <button
             key={item}
             value={item}
-            onClick={(e) => handlePagination(e)}
+            onClick={() => handlePagination(item)}
             className="hover:cursor-pointer disabled:cursor-default disabled:border-black disabled:bg-sky-500/100"
             disabled={currentPage === item}
           >
@@ -61,7 +46,7 @@ export const Pagination = ({
         );
       })}
       <button
-        onClick={() => handlePaginationNext()}
+        onClick={() => handlePagination(currentPage + 1)}
         className="hover:cursor-pointer disabled:cursor-default pr-4"
         disabled={currentPage === totalPages}
       >

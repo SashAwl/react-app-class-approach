@@ -84,11 +84,8 @@ export const ItemDataLayout = () => {
     setInputValue(inputValue);
   };
 
-  const handleClickPagination = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    const page = event.currentTarget?.value;
-    setCurrentPage(Number(page));
+  const handleClickPagination = (page: number) => {
+    setCurrentPage(page);
     navigate(`/characters?page=${page}`);
   };
 
@@ -118,6 +115,7 @@ export const ItemDataLayout = () => {
       )}
       {!isLoading && !error && (
         <Pagination
+          currentPage={currentPage}
           totalPages={totalPages}
           handlePagination={handleClickPagination}
         />
