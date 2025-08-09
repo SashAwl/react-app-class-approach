@@ -1,17 +1,24 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, test, vi, expect } from 'vitest';
-import * as storage from './utilize/utilizeLocalStorage';
-import App from './App';
+import * as storage from '../../utils/localStorageUtils';
+import { mockData } from '../../constants/mockData';
+
+vi.mock('@/utils/fetchCharacters', () => ({
+  fetchCharacters: vi.fn((_query, _page, onSuccess, _onError) => {
+    void _onError;
+    onSuccess(mockData.results);
+    return Promise.resolve();
+  }),
+}));
+
+import { App } from '../../App/App';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('Tests App component', () => {
   describe('Implements localStorage operations', () => {
     vi.mock('@/components/ErrorMessage', () => ({
       default: () => <div data-testid="mock-error-message" />,
-    }));
-
-    vi.mock('@/components/ItemDataList', () => ({
-      default: () => <div data-testid="mock-item-data-list" />,
     }));
 
     vi.mock('@/components/ThrowErrorButton', () => ({
@@ -26,14 +33,22 @@ describe('Tests App component', () => {
       const mockInitial = vi
         .spyOn(storage, 'initialLocalStorage')
         .mockImplementation(() => {});
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
       expect(mockInitial).toHaveBeenCalled();
     });
 
     test('Displays previously saved search term from localStorage on mount', () => {
       vi.spyOn(storage, 'getTermFromLocalStorage').mockReturnValue('test term');
 
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
       const input = screen.getByPlaceholderText(/input search/i);
       expect(input).toBeInTheDocument();
       expect(input).toHaveValue('test term');
@@ -42,7 +57,11 @@ describe('Tests App component', () => {
     test('Shows empty input when no saved term exists', () => {
       vi.spyOn(storage, 'getTermFromLocalStorage').mockReturnValue('');
 
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
       const input = screen.getByPlaceholderText(/input search/i);
       expect(input).toBeInTheDocument();
       expect(input).toHaveValue('');
@@ -51,7 +70,11 @@ describe('Tests App component', () => {
     test('Trims whitespace from search input before saving', async () => {
       vi.spyOn(storage, 'setTermToLocalStorage').mockImplementation(() => {});
 
-      render(<App />);
+      render(
+        <MemoryRouter>
+          <App />;
+        </MemoryRouter>
+      );
 
       const input = screen.getByPlaceholderText(/input search/i);
       const button = screen.getByRole('button', { name: /search/i });
@@ -65,4 +88,18 @@ describe('Tests App component', () => {
       );
     });
   });
+
+  test('Shows loading state while fetching data', async () => {
+    render(
+      <MemoryRouter>
+        <App />;
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+
+    const items = await screen.findAllByText(/rick/i);
+    expect(items.length).toBeGreaterThan(0);
+    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
+  }, 7000);
 });

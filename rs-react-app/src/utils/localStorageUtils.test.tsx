@@ -4,7 +4,7 @@ import {
   initialLocalStorage,
   getTermFromLocalStorage,
   setTermToLocalStorage,
-} from './utilizeLocalStorage';
+} from './localStorageUtils';
 
 describe('Tests localStorage operations', () => {
   describe('Initializes local storage', () => {

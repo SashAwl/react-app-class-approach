@@ -1,12 +1,7 @@
-import React from 'react';
+type ErrorMessageProps = {
+  error: string | null;
+};
 
-interface ErrorProps {
-  error: string;
-}
-
-export class ErrorMessage extends React.Component<ErrorProps> {
-  render() {
-    const { error } = this.props;
-    return <p className="error-message">{error}</p>;
-  }
-}
+export const ErrorMessage = ({ error }: ErrorMessageProps) => {
+  return <p className="error-message">{error}</p>;
+};
