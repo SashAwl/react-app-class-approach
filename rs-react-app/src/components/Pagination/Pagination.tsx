@@ -20,7 +20,7 @@ export const Pagination = ({
   }, [currentPage, totalPages]);
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center gap-4 mt-8">
       <button
         onClick={() => handlePagination(currentPage - 1)}
         className="hover:cursor-pointer disabled:cursor-default pr-4"
@@ -38,7 +38,7 @@ export const Pagination = ({
             key={item}
             value={item}
             onClick={() => handlePagination(item)}
-            className="hover:cursor-pointer disabled:cursor-default disabled:border-black disabled:bg-sky-500/100"
+            className={`hover:cursor-pointer disabled:cursor-default disabled:opacity-25 disabled:bg-amber-200 px-3 py-1 rounded-2xl ${currentPage === item ? 'bg-amber-300' : ''}`}
             disabled={currentPage === item}
           >
             {item}

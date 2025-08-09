@@ -20,7 +20,7 @@ export const Header = () => {
       style={{ gap: '20px', marginBottom: '30px' }}
     >
       <button>
-        <Link to="/characters?page=1" className="no-underline text-black mr-8">
+        <Link to="/characters?page=1" className="no-underline text-black">
           Home
         </Link>
       </button>

@@ -5,10 +5,10 @@ import { Main } from '../components/Main/Main';
 
 export const App = () => {
   return (
-    <>
+    <div className="bg-olive-gradient">
       <Header />
       <Main />
       <Footer />
-    </>
+    </div>
   );
 };

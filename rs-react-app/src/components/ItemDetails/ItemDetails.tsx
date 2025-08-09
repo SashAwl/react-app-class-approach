@@ -47,8 +47,10 @@ export const ItemDetails = () => {
       {isLoadingItem && <Spinner />}
       {error && <ErrorMessage error={error} />}
       {!isLoadingItem && !error && (
-        <div>
-          <h3>{character?.name || 'No name for this character'} </h3>
+        <div className="flex flex-col justify-center">
+          <h3 className="m-4 font-medium text-lg mask-radial-from-neutral-200 tracking-wider">
+            {character?.name || 'No name for this character'}{' '}
+          </h3>
           <img
             src={
               character?.image ||
@@ -57,7 +59,7 @@ export const ItemDetails = () => {
             alt="photo"
           />
           <button
-            className="absolute right-1 top-0 hover:cursor-pointer hover:bg-red-500"
+            className="absolute right-1 top-0 hover:cursor-pointer hover:bg-red-500 px-3 py-1 bg-gray-300 rounded-md"
             onClick={() => handleClickClose()}
           >
             X

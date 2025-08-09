@@ -18,8 +18,12 @@ export const Search = ({ inputValue, onChange, onSearch }: SearchProps) => {
         onChange={onChange}
         onKeyDown={handleKeyDown}
         value={inputValue}
+        className="border-1 rounded-lg p-2"
       />
-      <button onClick={onSearch} className="search__submit">
+      <button
+        onClick={onSearch}
+        className="bg-amber-100 px-4 py-2 rounded-lg ml-4 hover:cursor-pointer hover:scale-105"
+      >
         Search
       </button>
     </section>

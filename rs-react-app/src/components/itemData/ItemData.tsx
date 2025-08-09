@@ -21,7 +21,7 @@ export const ItemData = ({ item }: ItemProps) => {
     navigate(`/characters/${item.id}?page=${currentPage}`);
   };
   return (
-    <div className="grid grid-cols-2 gap-4" style={{ gap: '40px' }}>
+    <div className="grid grid-cols-2 gap-8">
       <h3
         className="text-right  hover:cursor-pointer"
         onClick={handlerClickItem}

@@ -1,7 +1,9 @@
 export const About = () => {
   return (
     <div>
-      <h3>About me</h3>
+      <h3 className="mt-8 mb-4 font-bold text-xl mask-radial-from-neutral-200 tracking-wider">
+        About me
+      </h3>
       <p>
         Hi! My name is Sasha. I have been interested in programming for several
         years and started my journey from the zero stage at RS School. Things
@@ -12,7 +14,12 @@ export const About = () => {
       </p>
       <p>
         Created as part of the{' '}
-        <a href="https://rs.school/courses/reactjs">RS School React course</a>
+        <a
+          href="https://rs.school/courses/reactjs"
+          className="text-amber-800 underline"
+        >
+          RS School React course
+        </a>
       </p>
     </div>
   );

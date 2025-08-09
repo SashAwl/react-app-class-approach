@@ -8,7 +8,7 @@ interface ListProps {
 export const ItemDataList = ({ characters }: ListProps) => {
   return (
     <section>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center gap-4">
         {characters.map((item: Character) => (
           <ItemData item={item} key={item.id} />
         ))}

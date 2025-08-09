@@ -103,7 +103,11 @@ export const ItemDataLayout = () => {
         onChange={handleChangeInput}
         onSearch={handleClickSearch}
       />
-      {!error && <h2>Your results</h2>}
+      {!error && (
+        <h2 className="m-8 font-bold text-xl mask-radial-from-neutral-200 tracking-wider">
+          Your results
+        </h2>
+      )}
       {isLoading && <Spinner />}
       {error && <ErrorMessage error={error} />}
       {!error && (
@@ -114,7 +118,7 @@ export const ItemDataLayout = () => {
             )}
           </div>
           <div className="w-1/2 border-l pl-4">
-            <div className="sticky top-1/2 -translate-y-1/2">
+            <div className="sticky top-0.5 -translate-y-0.5">
               {!isLoading && !error && <Outlet />}
             </div>
           </div>
