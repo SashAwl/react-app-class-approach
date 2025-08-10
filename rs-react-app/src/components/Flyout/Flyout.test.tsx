@@ -8,6 +8,22 @@ describe('Tests Flyout component', () => {
     const testCount = 3;
     renderWithProviders(<Flyout itemsCount={testCount} />);
 
-    expect(screen.getByText(/selected items/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(`Selected items: ${testCount}`)
+    ).toBeInTheDocument();
+  });
+
+  test('Displays unselect button', () => {
+    const testCount = 3;
+    renderWithProviders(<Flyout itemsCount={testCount} />);
+
+    expect(screen.getByText(/unselect all/i)).toBeInTheDocument();
+  });
+
+  test('Displays download button', () => {
+    const testCount = 3;
+    renderWithProviders(<Flyout itemsCount={testCount} />);
+
+    expect(screen.getByText(/download/i)).toBeInTheDocument();
   });
 });
