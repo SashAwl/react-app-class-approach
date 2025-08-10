@@ -14,7 +14,7 @@ export const App = () => {
       sessionStorage.removeItem('redirect');
       navigate(redirect);
     }
-  }, []);
+  }, [navigate]);
   return (
     <div className="bg-olive-gradient">
       <Header />

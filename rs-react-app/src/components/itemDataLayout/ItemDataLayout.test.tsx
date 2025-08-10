@@ -17,10 +17,6 @@ import { renderWithProviders } from '../../__tests__/testUtils';
 
 describe('Tests App component', () => {
   describe('Implements localStorage operations', () => {
-    vi.mock('@/components/ErrorMessage', () => ({
-      default: () => <div data-testid="mock-error-message" />,
-    }));
-
     vi.mock('@/components/ThrowErrorButton', () => ({
       default: () => <button data-testid="mock-throw-error-button" />,
     }));
