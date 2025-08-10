@@ -7,24 +7,6 @@ import {
 type SelectedState = number[];
 const initialState: SelectedState = [];
 
-const counterSlice = createSlice({
-  name: 'counter',
-  initialState: {
-    value: 0,
-  },
-  reducers: {
-    increment(state) {
-      state.value += 1;
-    },
-    decrement(state) {
-      state.value -= 1;
-    },
-    setValue(state, action: PayloadAction<number>) {
-      state.value = action.payload;
-    },
-  },
-});
-
 const selectedItemsSlice = createSlice({
   name: 'selectedSlice',
   initialState,
@@ -40,12 +22,12 @@ const selectedItemsSlice = createSlice({
   },
 });
 
-export const { increment, decrement, setValue } = counterSlice.actions;
 export const { toggleSelect, clearSelectedList } = selectedItemsSlice.actions;
+export const selectedItemsCount = (state: RootState) =>
+  state.selectedItems.length;
 
 export const store = configureStore({
   reducer: {
-    counter: counterSlice.reducer,
     selectedItems: selectedItemsSlice.reducer,
   },
 });
