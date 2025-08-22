@@ -4,6 +4,8 @@ import {
   type PayloadAction,
 } from '@reduxjs/toolkit';
 
+import { api } from './apiSlice';
+
 type SelectedState = number[];
 const initialState: SelectedState = [];
 
@@ -29,7 +31,10 @@ export const selectedItemsCount = (state: RootState) =>
 export const store = configureStore({
   reducer: {
     selectedItems: selectedItemsSlice.reducer,
+    [api.reducerPath]: api.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
