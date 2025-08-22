@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import type { Character } from '../../types/characterTypes';
-import { fetchCharacters } from '../../utils/apiUtils';
+import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { useGetCharactersQuery } from '../../store/apiSlice';
 import {
   getTermFromLocalStorage,
   initialLocalStorage,
@@ -17,37 +17,26 @@ import { selectedItemsCount } from '../../store/store';
 import { Flyout } from '../Flyout/Flyout';
 
 export const ItemDataLayout = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSearchTriggered, setIsSearchTriggered] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [inputValue, setInputValue] = useState('');
   const selectedItemsQuantity = useSelector(selectedItemsCount);
   const [searchParams] = useSearchParams();
+  const { data, error, isLoading } = useGetCharactersQuery({
+    queryTerm: query,
+    page: currentPage,
+  });
+
+  type errorMessage = FetchBaseQueryError & {
+    data: {
+      error: string;
+    };
+    status: string;
+  };
 
   const navigate = useNavigate();
-
-  const fetchData = useCallback(async () => {
-    setIsLoading(true);
-    fetchCharacters(
-      query,
-      currentPage,
-      (characters, totalPages) => {
-        setCharacters(characters);
-        setIsLoading(false);
-        setTotalPages(totalPages);
-        setError(null);
-      },
-      (message) => {
-        console.log(message);
-        setError('No characters found for your query');
-        setIsLoading(false);
-      }
-    );
-  }, [query, currentPage]);
 
   useEffect(() => {
     initialLocalStorage();
@@ -56,16 +45,14 @@ export const ItemDataLayout = () => {
     if (term) {
       setInputValue(term);
       setQuery(term);
-    } else {
-      fetchData();
     }
-  }, [fetchData]);
+  }, []);
 
   useEffect(() => {
-    if (query || currentPage > 1) {
-      fetchData();
+    if (data) {
+      setTotalPages(data.info.pages);
     }
-  }, [query, fetchData, currentPage]);
+  }, [data]);
 
   useEffect(() => {
     if (isSearchTriggered) {
@@ -83,7 +70,6 @@ export const ItemDataLayout = () => {
   const handleClickSearch = () => {
     const queryValue = inputValue.trim();
     setQuery(queryValue);
-    setIsLoading(true);
     setTermToLocalStorage(queryValue);
 
     setIsSearchTriggered(true);
@@ -112,13 +98,23 @@ export const ItemDataLayout = () => {
         </h2>
       )}
       {isLoading && <Spinner />}
-      {error && <ErrorMessage error={error} />}
+      {error && (
+        <ErrorMessage
+          error={
+            (error && 'data' in error && (error as errorMessage).data.error) ||
+            null
+          }
+        />
+      )}
       {!error && (
         <div className="flex mb-8">
           <div className="w-1/2">
-            {!isLoading && !error && characters.length > 0 && (
-              <ItemDataList characters={characters} />
-            )}
+            {!isLoading &&
+              !error &&
+              data?.results &&
+              data?.results.length > 0 && (
+                <ItemDataList characters={data?.results} />
+              )}
           </div>
           <div className="w-1/2 border-l pl-4">
             <div className="sticky top-0.5 -translate-y-0.5">
