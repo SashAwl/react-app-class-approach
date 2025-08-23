@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { type FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { useGetCharactersQuery } from '../../store/apiSlice';
+import { type errorMessageType } from '../../types/errorMessageType';
 import {
   getTermFromLocalStorage,
   initialLocalStorage,
@@ -24,17 +24,11 @@ export const ItemDataLayout = () => {
   const [inputValue, setInputValue] = useState('');
   const selectedItemsQuantity = useSelector(selectedItemsCount);
   const [searchParams] = useSearchParams();
-  const { data, error, isLoading } = useGetCharactersQuery({
-    queryTerm: query,
-    page: currentPage,
-  });
 
-  type errorMessage = FetchBaseQueryError & {
-    data: {
-      error: string;
-    };
-    status: string;
-  };
+  const { data, error, isLoading } = useGetCharactersQuery({
+    page: currentPage,
+    queryTerm: query,
+  });
 
   const navigate = useNavigate();
 
@@ -101,7 +95,9 @@ export const ItemDataLayout = () => {
       {error && (
         <ErrorMessage
           error={
-            (error && 'data' in error && (error as errorMessage).data.error) ||
+            (error &&
+              'data' in error &&
+              (error as errorMessageType).data.error) ||
             null
           }
         />
