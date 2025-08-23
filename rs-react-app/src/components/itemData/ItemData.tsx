@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import type { Character } from '../../types/characterTypes';
+import type { Character } from '../../types/characterType';
 import { useEffect } from 'react';
 import { toggleSelect, type RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';

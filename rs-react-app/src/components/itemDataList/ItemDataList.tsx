@@ -1,4 +1,4 @@
-import type { Character } from '../../types/characterTypes';
+import type { Character } from '../../types/characterType';
 import { ItemData } from '../ItemData/ItemData';
 
 interface ListProps {
