@@ -3,12 +3,13 @@ import { type errorMessageType } from '../../types/errorMessageType';
 import { useGetCharacterItemQuery } from '../../store/apiSlice';
 import { Spinner } from '../Spinner/Spinner';
 import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
+import { RefetchButton } from '../RefetchButton/RefetchButton';
 
 export const ItemDetails = () => {
   const { itemId } = useParams<{ itemId: string }>();
   const navigate = useNavigate();
 
-  const { data, error, isLoading } = useGetCharacterItemQuery({
+  const { data, error, isLoading, refetch } = useGetCharacterItemQuery({
     id: Number(itemId),
   });
 
@@ -44,12 +45,15 @@ export const ItemDetails = () => {
             }
             alt="photo"
           />
-          <button
-            className="absolute right-1 top-0 hover:cursor-pointer hover:bg-red-500 px-3 py-1 bg-gray-300 rounded-md"
-            onClick={() => handleClickClose()}
-          >
-            X
-          </button>
+          <div className="flex gap-2 items-center absolute right-1 top-0 ">
+            <button
+              className="hover:cursor-pointer hover:bg-red-300 px-3 py-1 bg-gray-300 rounded-md active:scale-94"
+              onClick={() => handleClickClose()}
+            >
+              X
+            </button>
+            <RefetchButton refresh={refetch} />
+          </div>
         </div>
       )}
     </div>

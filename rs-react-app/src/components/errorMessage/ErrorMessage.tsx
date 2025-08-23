@@ -3,5 +3,5 @@ type ErrorMessageProps = {
 };
 
 export const ErrorMessage = ({ error }: ErrorMessageProps) => {
-  return <p className="error-message">{error}</p>;
+  return <p className="mt-8">{error}</p>;
 };
