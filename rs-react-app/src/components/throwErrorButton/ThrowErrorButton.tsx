@@ -1,10 +1,14 @@
 interface ThrowErrorProps {
   handleThrowError: () => void;
+  menuStyle: string;
 }
 
-export const ThrowErrorButton = ({ handleThrowError }: ThrowErrorProps) => {
+export const ThrowErrorButton = ({
+  handleThrowError,
+  menuStyle,
+}: ThrowErrorProps) => {
   return (
-    <button className="self-end" onClick={handleThrowError}>
+    <button className={`${menuStyle} self-end`} onClick={handleThrowError}>
       Throw error
     </button>
   );

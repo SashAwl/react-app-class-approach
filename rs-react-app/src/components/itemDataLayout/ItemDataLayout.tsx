@@ -15,6 +15,7 @@ import { Spinner } from '../Spinner/Spinner';
 import { Pagination } from '../Pagination/Pagination';
 import { selectedItemsCount } from '../../store/store';
 import { Flyout } from '../Flyout/Flyout';
+import { RefetchButton } from '../RefetchButton/RefetchButton';
 
 export const ItemDataLayout = () => {
   const [isSearchTriggered, setIsSearchTriggered] = useState(false);
@@ -25,7 +26,7 @@ export const ItemDataLayout = () => {
   const selectedItemsQuantity = useSelector(selectedItemsCount);
   const [searchParams] = useSearchParams();
 
-  const { data, error, isLoading } = useGetCharactersQuery({
+  const { data, error, isLoading, refetch } = useGetCharactersQuery({
     page: currentPage,
     queryTerm: query,
   });
@@ -87,9 +88,12 @@ export const ItemDataLayout = () => {
         onSearch={handleClickSearch}
       />
       {!error && (
-        <h2 className="m-8 font-bold text-xl mask-radial-from-neutral-200 tracking-wider">
-          Your results
-        </h2>
+        <div className="flex gap-2 items-center">
+          <h2 className="m-8 font-bold text-xl mask-radial-from-neutral-200 tracking-wider">
+            Your results
+          </h2>
+          <RefetchButton refresh={refetch} />
+        </div>
       )}
       {isLoading && <Spinner />}
       {error && (
