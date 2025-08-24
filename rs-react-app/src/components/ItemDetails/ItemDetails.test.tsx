@@ -3,8 +3,12 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { ItemDetails } from './ItemDetails';
-import * as api from '../../utils/apiUtils';
+import * as api from '../../store/apiSlice';
 import { mockItemData } from '../../constants/mockData';
+
+vi.mock('@fortawesome/react-fontawesome', () => ({
+  FontAwesomeIcon: () => <div>icon</div>,
+}));
 
 const renderWithRoute = (
   ui: React.ReactElement,
@@ -28,14 +32,12 @@ describe('ItemDetails', () => {
   });
 
   test('Shows loading spinner while fetching', () => {
-    vi.spyOn(api, 'fetchCharacterItem').mockImplementation(
-      (_id, _onSuccess, onError) => {
-        setTimeout(() => {
-          onError('Something went wrong');
-        }, 100);
-        return Promise.resolve();
-      }
-    );
+    vi.spyOn(api, 'useGetCharacterItemQuery').mockReturnValue({
+      data: undefined,
+      error: undefined,
+      isLoading: true,
+      refetch: vi.fn(),
+    });
 
     renderWithRoute(<ItemDetails />);
 
@@ -43,13 +45,12 @@ describe('ItemDetails', () => {
   });
 
   test('Displays character data on success', async () => {
-    vi.spyOn(api, 'fetchCharacterItem').mockImplementation(
-      (_id, onSuccess, _onError) => {
-        void _onError;
-        onSuccess(mockItemData);
-        return Promise.resolve();
-      }
-    );
+    vi.spyOn(api, 'useGetCharacterItemQuery').mockReturnValue({
+      data: mockItemData,
+      error: undefined,
+      isLoading: false,
+      refetch: vi.fn(),
+    });
 
     renderWithRoute(<ItemDetails />);
 
@@ -59,17 +60,16 @@ describe('ItemDetails', () => {
   });
 
   test('Displays error message on fetch failure', async () => {
-    vi.spyOn(api, 'fetchCharacterItem').mockImplementation(
-      (_id, _onSuccess, onError) => {
-        void _onSuccess;
-        onError('Something went wrong');
-        return Promise.resolve();
-      }
-    );
+    vi.spyOn(api, 'useGetCharacterItemQuery').mockReturnValue({
+      data: undefined,
+      error: { data: { error: 'Test error text' }, status: 404 },
+      isLoading: false,
+      refetch: vi.fn(),
+    });
 
     renderWithRoute(<ItemDetails />);
 
-    expect(await screen.findByText(/no characters found/i)).toBeInTheDocument();
+    expect(await screen.findByText(/test error text/i)).toBeInTheDocument();
   });
 
   test('Navigates back to characters page on close', async () => {
@@ -84,13 +84,12 @@ describe('ItemDetails', () => {
       };
     });
 
-    vi.spyOn(api, 'fetchCharacterItem').mockImplementation(
-      (_id, onSuccess, _onError) => {
-        void _onError;
-        onSuccess(mockItemData);
-        return Promise.resolve();
-      }
-    );
+    vi.spyOn(api, 'useGetCharacterItemQuery').mockReturnValue({
+      data: mockItemData,
+      error: undefined,
+      isLoading: false,
+      refetch: vi.fn(),
+    });
 
     renderWithRoute(<ItemDetails />);
 
