@@ -1,23 +1,40 @@
+import { UncontrolledForm } from './components/UncontrolledForm/UncontrolledForm';
+import { MenuButton } from './components/MenuButton/MenuButton';
+import { ControlledForm } from './components/ControlledForm/ControlledForm';
+import { Modal } from './components/Modal/Modal';
 import { useState } from 'react';
-import './App.css';
+
+type FormType = 'UncontrolledForm' | 'ControlledForm' | null;
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [currentForm, setCurrentForm] = useState<FormType>(null);
 
+  const changeForm = (name: FormType) => {
+    setCurrentForm(name);
+  };
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="flex">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="flex justify-center gap-2 mt-4">
+        <MenuButton
+          nameButton="Uncontrolled form"
+          handleClick={() => changeForm('UncontrolledForm')}
+        />
+        <MenuButton
+          nameButton="Controlled form"
+          handleClick={() => changeForm('ControlledForm')}
+        />
       </div>
-      <p className="text-red-500">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Modal>
+        <div className="flex col-auto mt-8">
+          {!currentForm && <p className="mx-auto">Select form</p>}
+          {currentForm && currentForm === 'UncontrolledForm' && (
+            <UncontrolledForm />
+          )}
+          {currentForm && currentForm === 'ControlledForm' && (
+            <ControlledForm />
+          )}
+        </div>
+      </Modal>
     </>
   );
 }
