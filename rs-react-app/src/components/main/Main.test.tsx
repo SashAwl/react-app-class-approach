@@ -1,9 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { Main } from './Main';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { Provider } from 'react-redux';
 import { store } from '../../store/store';
+
+vi.mock('@fortawesome/react-fontawesome', () => ({
+  FontAwesomeIcon: () => <div>icon</div>,
+}));
+
+import { Main } from './Main';
 
 describe('Main', () => {
   test('renders start route by default', () => {
