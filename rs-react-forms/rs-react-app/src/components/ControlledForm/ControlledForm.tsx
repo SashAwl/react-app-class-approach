@@ -132,7 +132,9 @@ export const ControlledForm = () => {
         </datalist>
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit" className=" bg-blue-100 rounded-lg p-2 ml-2">
+        Submit
+      </button>
     </form>
   );
 };

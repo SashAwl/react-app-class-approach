@@ -1,6 +1,10 @@
 import { useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { setFormData } from '../../store/formSlice';
 
 export function UncontrolledForm() {
+  const dispatch = useDispatch();
+
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -13,6 +17,24 @@ export function UncontrolledForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const formData = {
+      name: nameRef.current?.value || '',
+      age: ageRef.current?.value || '',
+      email: emailRef.current?.value || '',
+      password: passwordRef.current?.value || '',
+      confirmPassword: confirmPasswordRef.current?.value || '',
+      gender: maleRef.current?.checked
+        ? 'male'
+        : femaleRef.current?.checked
+          ? 'female'
+          : '',
+      accept: acceptRef.current?.checked || false,
+      country: countryRef.current?.value || '',
+    };
+
+    dispatch(setFormData(formData));
+    console.log(formData);
   };
 
   return (
@@ -122,7 +144,9 @@ export function UncontrolledForm() {
         </datalist>
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit" className=" bg-blue-100 rounded-lg p-2 ml-2">
+        Submit
+      </button>
     </form>
   );
 }
