@@ -1,17 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { type FormValues } from '../types/formValuesType';
 
-interface FormData {
-  name: string;
-  age: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  accept: boolean;
-  country: string;
-}
-
-const initialState: FormData = {
+const initialState: FormValues = {
   name: '',
   age: '',
   email: '',
@@ -26,7 +16,7 @@ const formSlice = createSlice({
   name: 'form',
   initialState,
   reducers: {
-    setFormData: (state, action: PayloadAction<FormData>) => {
+    setFormData: (state, action: PayloadAction<FormValues>) => {
       return action.payload;
     },
   },

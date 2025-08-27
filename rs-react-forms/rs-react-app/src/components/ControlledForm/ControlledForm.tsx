@@ -1,17 +1,11 @@
 import { useForm } from 'react-hook-form';
-
-type FormValues = {
-  name: string;
-  age: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  gender: string;
-  acceptTnC: boolean;
-  country: string;
-};
+import { type FormValues } from '../../types/formValuesType';
+import { useDispatch } from 'react-redux';
+import { setFormData } from '../../store/formSlice';
 
 export const ControlledForm = () => {
+  const dispatch = useDispatch();
+
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       name: '',
@@ -20,12 +14,15 @@ export const ControlledForm = () => {
       password: '',
       confirmPassword: '',
       gender: '',
-      acceptTnC: false,
+      accept: false,
       country: '',
     },
   });
 
-  const onSubmit = () => {};
+  const onSubmit = (data: FormValues) => {
+    dispatch(setFormData(data));
+    console.log(data);
+  };
 
   return (
     <form
@@ -39,6 +36,7 @@ export const ControlledForm = () => {
           id="name"
           {...register('name')}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
       </div>
 
@@ -59,6 +57,7 @@ export const ControlledForm = () => {
           type="email"
           {...register('email')}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
       </div>
 
@@ -69,6 +68,7 @@ export const ControlledForm = () => {
           type="password"
           {...register('password')}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
       </div>
 
@@ -79,6 +79,7 @@ export const ControlledForm = () => {
           type="password"
           {...register('confirmPassword')}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
       </div>
 
@@ -108,8 +109,9 @@ export const ControlledForm = () => {
         <label>
           <input
             type="checkbox"
-            {...register('acceptTnC')}
+            {...register('accept')}
             className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+            required
           />
           Accept Terms & Conditions
         </label>
@@ -122,6 +124,7 @@ export const ControlledForm = () => {
           list="countries"
           {...register('country')}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
         <datalist id="countries">
           <option value="United States" />

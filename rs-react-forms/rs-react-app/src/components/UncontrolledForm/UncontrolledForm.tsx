@@ -50,6 +50,7 @@ export function UncontrolledForm() {
           type="text"
           ref={nameRef}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
       </div>
 
@@ -70,6 +71,7 @@ export function UncontrolledForm() {
           type="email"
           ref={emailRef}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
       </div>
 
@@ -80,6 +82,7 @@ export function UncontrolledForm() {
           type="password"
           ref={passwordRef}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
         <br />
         <label htmlFor="confirmPassword">Confirm Password</label>
@@ -88,6 +91,7 @@ export function UncontrolledForm() {
           type="password"
           ref={confirmPasswordRef}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2 mt-4"
+          required
         />
       </div>
 
@@ -121,6 +125,7 @@ export function UncontrolledForm() {
             type="checkbox"
             ref={acceptRef}
             className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+            required
           />{' '}
           Accept Terms & Conditions
         </label>
@@ -134,6 +139,7 @@ export function UncontrolledForm() {
           list="countries"
           ref={countryRef}
           className="border-1 border-gray-300 rounded-lg p-2 ml-2"
+          required
         />
         <datalist id="countries">
           <option value="United States" />
