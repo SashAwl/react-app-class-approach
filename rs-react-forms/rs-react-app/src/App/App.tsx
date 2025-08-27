@@ -1,7 +1,7 @@
-import { UncontrolledForm } from './components/UncontrolledForm/UncontrolledForm';
-import { MenuButton } from './components/MenuButton/MenuButton';
-import { ControlledForm } from './components/ControlledForm/ControlledForm';
-import { Modal } from './components/Modal/Modal';
+import { UncontrolledForm } from '../components/UncontrolledForm/UncontrolledForm';
+import { MenuButton } from '../components/MenuButton/MenuButton';
+import { ControlledForm } from '../components/ControlledForm/ControlledForm';
+import { Modal } from '../components/Modal/Modal';
 import { useState } from 'react';
 
 type FormType = 'UncontrolledForm' | 'ControlledForm' | null;

@@ -29,6 +29,7 @@ export const ControlledForm = () => {
 
   return (
     <form
+      data-testid="controlled-form"
       className="space-y-4 p-4 max-w-lg mx-auto bg-white rounded shadow"
       onSubmit={handleSubmit(onSubmit)}
     >

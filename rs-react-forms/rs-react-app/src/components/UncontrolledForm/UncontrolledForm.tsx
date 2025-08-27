@@ -17,6 +17,7 @@ export function UncontrolledForm() {
 
   return (
     <form
+      data-testid="uncontrolled-form"
       onSubmit={handleSubmit}
       className="space-y-4 p-4 max-w-lg mx-auto bg-white rounded shadow"
     >
