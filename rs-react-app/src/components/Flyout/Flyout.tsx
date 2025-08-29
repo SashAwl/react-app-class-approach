@@ -15,8 +15,8 @@ export const Flyout = ({ itemsCount }: FlyoutProps) => {
   const handleDownloadClick = () => {};
 
   return (
-    <div className="self-start">
-      <p className="font-bold  bg-gray-100 py-2 mb-4 text-start pl-4">
+    <div className="flex items-center fixed left-4 bottom-8 z-3 bg-gradient-to-r from-gray-100/95 via-gray-100/95 via-80% to-gray-100/40  w-3/4 text-xs">
+      <p className="font-bold py-2 mr-8 text-start pl-4">
         Selected items: {itemsCount}
       </p>
       <div>

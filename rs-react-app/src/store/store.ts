@@ -8,7 +8,7 @@ type SelectedState = number[];
 const initialState: SelectedState = [];
 
 const selectedItemsSlice = createSlice({
-  name: 'selectedSlice',
+  name: 'selectedItems',
   initialState,
   reducers: {
     toggleSelect(state, action: PayloadAction<number>) {
