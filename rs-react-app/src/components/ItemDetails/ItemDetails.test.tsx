@@ -96,6 +96,9 @@ describe('ItemDetails', () => {
     const closeBtn = await screen.findByRole('button', { name: /x/i });
     await userEvent.click(closeBtn);
 
-    expect(mockNavigate).toHaveBeenCalledWith('/characters?page=1');
+    expect(mockNavigate).toHaveBeenCalledWith({
+      pathname: '/characters',
+      search: 'page=1',
+    });
   });
 });
