@@ -2,13 +2,17 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Main } from './Main';
 import { describe, expect, test } from 'vitest';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 describe('Main', () => {
   test('renders start route by default', () => {
     render(
-      <MemoryRouter initialEntries={['/characters']}>
-        <Main />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/characters']}>
+          <Main />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText('Your results')).toBeInTheDocument();
@@ -16,9 +20,11 @@ describe('Main', () => {
 
   test('renders About route', () => {
     render(
-      <MemoryRouter initialEntries={['/about']}>
-        <Main />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/about']}>
+          <Main />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.getByText('About me')).toBeInTheDocument();
@@ -26,9 +32,11 @@ describe('Main', () => {
 
   test('renders nothing for unknown route', () => {
     render(
-      <MemoryRouter initialEntries={['/not-found']}>
-        <Main />
-      </MemoryRouter>
+      <Provider store={store}>
+        <MemoryRouter initialEntries={['/not-found']}>
+          <Main />
+        </MemoryRouter>
+      </Provider>
     );
 
     expect(screen.queryByText('About Page')).not.toBeInTheDocument();

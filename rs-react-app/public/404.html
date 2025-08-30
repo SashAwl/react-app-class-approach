@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script>
+      const redirectPath =
+        location.pathname.replace('/react-app-class-approach', '') +
+        location.search +
+        location.hash;
+
+      window.location.replace(
+        '/react-app-class-approach/index.html#' + redirectPath
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

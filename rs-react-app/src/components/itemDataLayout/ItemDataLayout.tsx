@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import type { Character } from '../../types/characterTypes';
 import { fetchCharacters } from '../../utils/apiUtils';
 import {
@@ -12,6 +13,8 @@ import { ErrorMessage } from '../ErrorMessage/ErrorMessage';
 import { Search } from '../SearchForm/SearchForm';
 import { Spinner } from '../Spinner/Spinner';
 import { Pagination } from '../Pagination/Pagination';
+import { selectedItemsCount } from '../../store/store';
+import { Flyout } from '../Flyout/Flyout';
 
 export const ItemDataLayout = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -22,7 +25,7 @@ export const ItemDataLayout = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [inputValue, setInputValue] = useState('');
-
+  const selectedItemsQuantity = useSelector(selectedItemsCount);
   const [searchParams] = useSearchParams();
 
   const navigate = useNavigate();
@@ -97,7 +100,7 @@ export const ItemDataLayout = () => {
   };
 
   return (
-    <>
+    <div className="flex flex-col items-center">
       <Search
         inputValue={inputValue}
         onChange={handleChangeInput}
@@ -111,7 +114,7 @@ export const ItemDataLayout = () => {
       {isLoading && <Spinner />}
       {error && <ErrorMessage error={error} />}
       {!error && (
-        <div className="flex">
+        <div className="flex mb-8">
           <div className="w-1/2">
             {!isLoading && !error && characters.length > 0 && (
               <ItemDataList characters={characters} />
@@ -124,6 +127,9 @@ export const ItemDataLayout = () => {
           </div>
         </div>
       )}
+      {selectedItemsQuantity > 0 && (
+        <Flyout itemsCount={selectedItemsQuantity} />
+      )}
       {!isLoading && !error && (
         <Pagination
           currentPage={currentPage}
@@ -131,6 +137,6 @@ export const ItemDataLayout = () => {
           handlePagination={handleClickPagination}
         />
       )}
-    </>
+    </div>
   );
 };

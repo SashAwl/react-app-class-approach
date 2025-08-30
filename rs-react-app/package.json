@@ -11,13 +11,15 @@
     "preview": "vite preview",
     "format:fix": "prettier --write .",
     "prepare": "cd .. && husky rs-react-app/.husky",
-    "deploy": "vite build && gh-pages -d dist",
+    "deploy": "vite build && powershell Copy-Item -Path dist\\index.html -Destination dist\\404.html && gh-pages -d dist",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.7.1"
   },
   "devDependencies": {
