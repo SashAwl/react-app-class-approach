@@ -15,6 +15,7 @@ export const ItemData = ({ item }: ItemProps) => {
 
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || '1';
+  const currentSearch = searchParams.get('search');
 
   useEffect(() => {
     if (!item) {
@@ -23,7 +24,12 @@ export const ItemData = ({ item }: ItemProps) => {
   }, [item]);
 
   const handlerClickItem = () => {
-    navigate(`/characters/${item.id}?page=${currentPage}`);
+    navigate({
+      pathname: `/characters/${item.id}`,
+      search:
+        `page=${currentPage}` +
+        `${currentSearch ? '&search=' + currentSearch : ''}`,
+    });
   };
 
   const handleChange = (id: number) => {

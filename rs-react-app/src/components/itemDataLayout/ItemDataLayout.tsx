@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  Outlet,
+  useNavigate,
+  useSearchParams,
+  useParams,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useGetCharactersQuery } from '../../store/apiSlice';
 import { type errorMessageType } from '../../types/errorMessageType';
@@ -24,11 +29,12 @@ export const ItemDataLayout = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [inputValue, setInputValue] = useState('');
   const selectedItemsQuantity = useSelector(selectedItemsCount);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { itemId } = useParams();
 
   const { data, error, isLoading, refetch } = useGetCharactersQuery({
     page: currentPage,
-    queryTerm: query,
+    search: query,
   });
 
   const navigate = useNavigate();
@@ -51,11 +57,17 @@ export const ItemDataLayout = () => {
 
   useEffect(() => {
     if (isSearchTriggered) {
-      navigate('/characters?page=1');
-
+      if (itemId) {
+        navigate({
+          pathname: '/characters',
+          search: 'page=1' + `${query ? '&search=' + query : ''}`,
+        });
+      } else {
+        setSearchParams({ page: '1', search: query });
+      }
       setIsSearchTriggered(false);
     }
-  }, [query, navigate, isSearchTriggered]);
+  }, [query, navigate, isSearchTriggered, itemId, setSearchParams]);
 
   useEffect(() => {
     const pageFromQuery = searchParams.get('page') || '1';
@@ -77,7 +89,14 @@ export const ItemDataLayout = () => {
 
   const handleClickPagination = (page: number) => {
     setCurrentPage(page);
-    navigate(`/characters?page=${page}`);
+    if (itemId) {
+      navigate({
+        pathname: '/characters',
+        search: `page=${page}` + `${query ? '&search=' + query : ''}`,
+      });
+    } else {
+      setSearchParams({ page: String(page), search: query });
+    }
   };
 
   return (

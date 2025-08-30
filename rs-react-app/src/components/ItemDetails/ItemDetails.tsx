@@ -15,9 +15,15 @@ export const ItemDetails = () => {
 
   const [searchParams] = useSearchParams();
   const currentPage = searchParams.get('page') || '1';
+  const currentSearch = searchParams.get('search');
 
   const handleClickClose = () => {
-    navigate(`/characters?page=${currentPage}`);
+    navigate({
+      pathname: '/characters',
+      search:
+        `page=${currentPage}` +
+        `${currentSearch ? '&search=' + currentSearch : ''}`,
+    });
   };
 
   return (

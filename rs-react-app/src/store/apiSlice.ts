@@ -9,9 +9,9 @@ export const api = createApi({
   endpoints: (builder) => ({
     getCharacters: builder.query<
       { results: Character[]; info: { pages: number } },
-      { page: number; queryTerm: string }
+      { page: number; search: string }
     >({
-      query: ({ queryTerm, page }) => getCharactersEndpoint(queryTerm, page),
+      query: ({ search, page }) => getCharactersEndpoint(search, page),
     }),
     getCharacterItem: builder.query<Character, { id: number }>({
       query: ({ id }) => `/${id}`,
