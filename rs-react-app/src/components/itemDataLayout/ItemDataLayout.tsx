@@ -62,7 +62,10 @@ export const ItemDataLayout = () => {
           search: 'page=1' + `${query ? '&search=' + query : ''}`,
         });
       } else {
-        setSearchParams({ page: '1', search: query });
+        setSearchParams({ page: '1' });
+        if (query) {
+          setSearchParams({ search: query });
+        }
       }
       setIsSearchTriggered(false);
     }
