@@ -38,7 +38,6 @@ export const ItemDataLayout = () => {
   });
 
   const navigate = useNavigate();
-
   useEffect(() => {
     initialLocalStorage();
 

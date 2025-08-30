@@ -43,9 +43,11 @@ export const ItemDetails = () => {
         <div className="flex flex-col justify-center">
           <h3 className="m-4 font-medium text-lg mask-radial-from-neutral-200 tracking-wider">
             {data?.name || 'No name for this character'}{' '}
+            {data?.name || 'No name for this character'}{' '}
           </h3>
           <img
             src={
+              data?.image ||
               data?.image ||
               'https://avatars.mds.yandex.net/i?id=e57de7764a82904075159743c7824dbfdd83fdc2-8407394-images-thumbs&ref=rim&n=33&w=200&h=200'
             }
