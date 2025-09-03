@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ThrowErrorButton } from '../ThrowErrorButton/ThrowErrorButton';
+import { ThrowErrorButton } from '../ThrowErrorButton-tmp/ThrowErrorButton';
 import { useEffect, useState } from 'react';
 
 export const Header = () => {
