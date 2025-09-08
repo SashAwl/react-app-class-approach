@@ -130,12 +130,9 @@ export const ItemDataLayout = () => {
       {!error && (
         <div className="flex mb-8">
           <div className="w-1/2">
-            {!isLoading &&
-              !error &&
-              data?.results &&
-              data?.results.length > 0 && (
-                <ItemDataList characters={data?.results} />
-              )}
+            {!isLoading && !error && data?.results && data?.results.length && (
+              <ItemDataList characters={data?.results} />
+            )}
           </div>
           <div className="w-1/2 border-l pl-4">
             <div className="sticky top-0.5 -translate-y-0.5">

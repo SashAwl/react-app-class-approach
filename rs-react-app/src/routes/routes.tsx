@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
-import { ItemDetails } from '../components/ItemDetails-tmp/ItemDetails';
-import { About } from '../pages/About-tmp/About';
-import { ItemDataLayout } from '../components/ItemDataLayout-tmp/ItemDataLayout';
-import { NotFound } from '../pages/NotFound-tmp/NotFound';
+import { ItemDetails } from '../components/ItemDetails/ItemDetails';
+import { About } from '../pages/About/About';
+import { ItemDataLayout } from '../components/ItemDataLayout/ItemDataLayout';
+import { NotFound } from '../pages/NotFound/NotFound';
 
 const routes = [
   {
