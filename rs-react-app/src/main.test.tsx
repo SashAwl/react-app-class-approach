@@ -1,6 +1,10 @@
-import { afterEach, describe, expect, test } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 import { renderApp } from './main';
 import { shouldRenderApp } from './main';
+
+vi.mock('@fortawesome/react-fontawesome', () => ({
+  FontAwesomeIcon: () => <div>icon</div>,
+}));
 
 describe('Tests main.tsx', () => {
   afterEach(() => {

@@ -1,8 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {
+  Outlet,
+  useNavigate,
+  useSearchParams,
+  useParams,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import type { Character } from '../../types/characterTypes';
-import { fetchCharacters } from '../../utils/apiUtils';
+import { useGetCharactersQuery } from '../../store/apiSlice';
+import { type errorMessageType } from '../../types/errorMessageType';
 import {
   getTermFromLocalStorage,
   initialLocalStorage,
@@ -15,40 +20,24 @@ import { Spinner } from '../Spinner/Spinner';
 import { Pagination } from '../Pagination/Pagination';
 import { selectedItemsCount } from '../../store/store';
 import { Flyout } from '../Flyout/Flyout';
+import { RefetchButton } from '../RefetchButton/RefetchButton';
 
 export const ItemDataLayout = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isSearchTriggered, setIsSearchTriggered] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [query, setQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [inputValue, setInputValue] = useState('');
   const selectedItemsQuantity = useSelector(selectedItemsCount);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { itemId } = useParams();
+
+  const { data, error, isLoading, refetch } = useGetCharactersQuery({
+    page: currentPage,
+    search: query,
+  });
 
   const navigate = useNavigate();
-
-  const fetchData = useCallback(async () => {
-    setIsLoading(true);
-    fetchCharacters(
-      query,
-      currentPage,
-      (characters, totalPages) => {
-        setCharacters(characters);
-        setIsLoading(false);
-        setTotalPages(totalPages);
-        setError(null);
-      },
-      (message) => {
-        console.log(message);
-        setError('No characters found for your query');
-        setIsLoading(false);
-      }
-    );
-  }, [query, currentPage]);
-
   useEffect(() => {
     initialLocalStorage();
 
@@ -56,24 +45,31 @@ export const ItemDataLayout = () => {
     if (term) {
       setInputValue(term);
       setQuery(term);
-    } else {
-      fetchData();
     }
-  }, [fetchData]);
+  }, []);
 
   useEffect(() => {
-    if (query || currentPage > 1) {
-      fetchData();
+    if (data) {
+      setTotalPages(data.info.pages);
     }
-  }, [query, fetchData, currentPage]);
+  }, [data]);
 
   useEffect(() => {
     if (isSearchTriggered) {
-      navigate('/characters?page=1');
-
+      if (itemId) {
+        navigate({
+          pathname: '/characters',
+          search: 'page=1' + `${query ? '&search=' + query : ''}`,
+        });
+      } else {
+        setSearchParams({ page: '1' });
+        if (query) {
+          setSearchParams({ search: query });
+        }
+      }
       setIsSearchTriggered(false);
     }
-  }, [query, navigate, isSearchTriggered]);
+  }, [query, navigate, isSearchTriggered, itemId, setSearchParams]);
 
   useEffect(() => {
     const pageFromQuery = searchParams.get('page') || '1';
@@ -83,7 +79,6 @@ export const ItemDataLayout = () => {
   const handleClickSearch = () => {
     const queryValue = inputValue.trim();
     setQuery(queryValue);
-    setIsLoading(true);
     setTermToLocalStorage(queryValue);
 
     setIsSearchTriggered(true);
@@ -96,7 +91,14 @@ export const ItemDataLayout = () => {
 
   const handleClickPagination = (page: number) => {
     setCurrentPage(page);
-    navigate(`/characters?page=${page}`);
+    if (itemId) {
+      navigate({
+        pathname: '/characters',
+        search: `page=${page}` + `${query ? '&search=' + query : ''}`,
+      });
+    } else {
+      setSearchParams({ page: String(page), search: query });
+    }
   };
 
   return (
@@ -107,17 +109,29 @@ export const ItemDataLayout = () => {
         onSearch={handleClickSearch}
       />
       {!error && (
-        <h2 className="m-8 font-bold text-xl mask-radial-from-neutral-200 tracking-wider">
-          Your results
-        </h2>
+        <div className="flex gap-2 items-center">
+          <h2 className="m-8 font-bold text-xl mask-radial-from-neutral-200 tracking-wider">
+            Your results
+          </h2>
+          <RefetchButton refresh={refetch} />
+        </div>
       )}
       {isLoading && <Spinner />}
-      {error && <ErrorMessage error={error} />}
+      {error && (
+        <ErrorMessage
+          error={
+            (error &&
+              'data' in error &&
+              (error as errorMessageType).data.error) ||
+            null
+          }
+        />
+      )}
       {!error && (
         <div className="flex mb-8">
           <div className="w-1/2">
-            {!isLoading && !error && characters.length > 0 && (
-              <ItemDataList characters={characters} />
+            {!isLoading && !error && data?.results && data?.results.length && (
+              <ItemDataList characters={data?.results} />
             )}
           </div>
           <div className="w-1/2 border-l pl-4">

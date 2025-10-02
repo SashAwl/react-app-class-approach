@@ -22,7 +22,7 @@ export const Search = ({ inputValue, onChange, onSearch }: SearchProps) => {
       />
       <button
         onClick={onSearch}
-        className="bg-amber-100 px-4 py-2 rounded-lg ml-4 hover:cursor-pointer hover:scale-105"
+        className="bg-amber-100 px-4 py-2 rounded-lg ml-4 hover:cursor-pointer hover:bg-amber-200 hover:scale-105 active:scale-94"
       >
         Search
       </button>

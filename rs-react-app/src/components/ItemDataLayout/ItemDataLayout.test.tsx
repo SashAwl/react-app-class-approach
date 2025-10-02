@@ -1,21 +1,30 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, test, vi, expect } from 'vitest';
+import { beforeEach, describe, test, vi, expect, type Mock } from 'vitest';
 import * as storage from '../../utils/localStorageUtils';
 import { mockData } from '../../constants/mockData';
 
-vi.mock('@/utils/fetchCharacters', () => ({
-  fetchCharacters: vi.fn((_query, _page, onSuccess, _onError) => {
-    void _onError;
-    onSuccess(mockData.results);
-    return Promise.resolve();
-  }),
+vi.mock('@fortawesome/react-fontawesome', () => ({
+  FontAwesomeIcon: () => <div>icon</div>,
 }));
+
+vi.mock('../../store/apiSlice', async () => {
+  const actual = await vi.importActual<typeof import('../../store/apiSlice')>(
+    '../../store/apiSlice'
+  );
+
+  return {
+    ...actual,
+    useGetCharactersQuery: vi.fn(),
+    useGetCharacterItemQuery: vi.fn(),
+  };
+});
 
 import { App } from '../../App/App';
 import { renderWithProviders } from '../../__tests__/testUtils';
+import { useGetCharactersQuery } from '../../store/apiSlice';
 
-describe('Tests App component', () => {
+describe('Tests ItemDataLayout component - success cases', () => {
   describe('Implements localStorage operations', () => {
     vi.mock('@/components/ThrowErrorButton', () => ({
       default: () => <button data-testid="mock-throw-error-button" />,
@@ -23,6 +32,12 @@ describe('Tests App component', () => {
 
     beforeEach(() => {
       vi.restoreAllMocks();
+      (useGetCharactersQuery as Mock).mockImplementation(() => ({
+        data: mockData,
+        error: null,
+        isLoading: false,
+        refetch: vi.fn(),
+      }));
     });
 
     test('Calls initialLocalStorage on mount', () => {
@@ -68,14 +83,18 @@ describe('Tests App component', () => {
       );
     });
   });
+});
 
+describe('Tests ItemDataLayout component - loading case', () => {
   test('Shows loading state while fetching data', async () => {
+    (useGetCharactersQuery as Mock).mockReturnValue({
+      data: undefined,
+      error: null,
+      isLoading: true,
+      refetch: vi.fn(),
+    });
+
     renderWithProviders(<App />);
-
-    expect(await screen.findByText(/loading/i)).toBeInTheDocument();
-
-    const items = await screen.findAllByText(/rick/i);
-    expect(items.length).toBeGreaterThan(0);
-    expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
-  }, 7000);
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
+  });
 });
